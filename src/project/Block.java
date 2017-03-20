@@ -66,12 +66,12 @@ public class Block extends JPanel {
 			if (orientation == HORIZONTAL)
 				for (int i = 0; i <= Math.abs(d); i++) {
 					setBounds(x + ((d < 0)? -i : i), y, width, height);
-					Thread.sleep(1);
+					Thread.sleep(5);
 				}
 			else
 				for (int i = 0; i <= Math.abs(d); i++) {
 					setBounds(x, y + ((d < 0)? -i : i), width, height);
-					Thread.sleep(1);
+					Thread.sleep(5);
 				}
 		x = getX();
 		y = getY();
