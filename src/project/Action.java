@@ -1,3 +1,4 @@
+package project;
 
 public class Action {
 	private char block;
