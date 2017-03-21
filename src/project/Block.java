@@ -10,7 +10,8 @@ public class Block extends JPanel {
 
 	private int x; 
 	private int y;
-	private final int width, height;
+	private final int width;
+	private final int height;
 	private boolean orientation;
 	public static final boolean HORIZONTAL = true;
 	public static final boolean VERTICAL   = false;

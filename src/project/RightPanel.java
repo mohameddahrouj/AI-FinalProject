@@ -38,7 +38,7 @@ public class RightPanel extends JPanel {
 	private JLabel lbTime;
 	
 	public static boolean solving = false;
-	private Solver s;
+	private Solver algorithm;
 	
 	/**
 	 * Creates right side bar
@@ -47,15 +47,14 @@ public class RightPanel extends JPanel {
 		setPreferredSize(new Dimension(300,630));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
-
-		initComponents();
+		initializeComponents();
 		loadPuzzles();
 	}
 
 	/**
 	 * Initializes combobox, radiobuttons and button
 	 */
-	private void initComponents() {
+	private void initializeComponents() {
 		//Puzzle list
 		cbPuzzles = new JComboBox<>();
 		
@@ -74,9 +73,11 @@ public class RightPanel extends JPanel {
 		lbTime = new JLabel("");
 		
 		cbPuzzles.setBounds(50, 0, 200, 30);
+		
 		rbAStar.setBounds(50, 50, 50, 50);
-		rbBFS.setBounds(120, 50, 75, 50);
-		rbSearchAnnealing.setBounds(190, 50, 75, 50);
+		rbBFS.setBounds(100, 50, 50, 50);
+		rbSearchAnnealing.setBounds(160, 50, 200, 50);
+		
 		btnSolve.setBounds(50, 140, 100, 50);
 		btnShow.setBounds(155, 140, 100, 50);
 		lbMoves.setBounds(50, 220, 300, 30);
@@ -192,11 +193,11 @@ public class RightPanel extends JPanel {
 			Board initial = new Board(blocks);
 			
 			if (rbAStar.isSelected())
-				s = new AStarSolver(initial);
+				algorithm = new AStarSolver(initial);
 			else if (rbBFS.isSelected())
-				s = new BFSSolver(initial);
+				algorithm = new BFSSolver(initial);
 			else if (rbSearchAnnealing.isSelected())
-				s = new SearchAnnealingSolver(initial);
+				algorithm = new SearchAnnealingSolver(initial);
 			else {
 				JOptionPane.showMessageDialog(null, "You should select an algorithm");
 				solving = false;
@@ -214,9 +215,9 @@ public class RightPanel extends JPanel {
 				return;
 			}
 			
-			lbMoves.setText("Number of Moves: " + s.moves());
-			lbExpNodes.setText("Number of Nodes Processed: " + s.expandedNodes());
-			lbTime.setText("Running time: " + s.getRunningTime());
+			lbMoves.setText("Number of Moves: " + algorithm.moves());
+			lbExpNodes.setText("Number of Nodes Processed: " + algorithm.expandedNodes());
+			lbTime.setText("Running time: " + algorithm.getRunningTime());
 			
 			btnSolve.setEnabled(true);
 			btnShow.setEnabled(true);
@@ -237,8 +238,8 @@ public class RightPanel extends JPanel {
 			rbBFS.setEnabled(false);
 			rbSearchAnnealing.setEnabled(false);
 			
-			if (s.isSolvable())
-				for (Action a : s.solution()) {
+			if (algorithm.isSolvable())
+				for (Action a : algorithm.solution()) {
 					if (a.getBlock() == 'X'){
 						Shared.board.blocks[0].move(100 * a.getMoves());
 						//Prints the board
