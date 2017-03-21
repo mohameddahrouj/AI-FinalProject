@@ -3,15 +3,17 @@ package project;
 public class Action {
 	private char block;
 	private int moves;
-	
+	private Board board;
+
 	/**
 	 *  Initializes the action
-	 *  @param block		A char representing the block to move
-	 *  @param moves		An int containing how much the block moved
+	 *  @param block A char representing the block to move
+	 *  @param moves An int containing how times the block moved
 	 */
-	public Action(char block, int moves) {
+	public Action(char block, int moves, Board board) {
 		this.block = block;
 		this.moves = moves;
+		this.board = board;
 	}
 	
 	/**
@@ -36,5 +38,13 @@ public class Action {
 	 */
 	public String toString() {
 		return "{" + block + ", " + moves + "}";
+	}
+	
+	public Board getBoard() {
+		return board;
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
 	}
 }

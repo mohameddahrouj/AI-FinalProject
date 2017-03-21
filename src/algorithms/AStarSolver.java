@@ -1,4 +1,4 @@
-package project;
+package algorithms;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -6,6 +6,9 @@ import java.util.Scanner;
 
 import datastructures.MinPQ;
 import datastructures.Stack;
+import project.Action;
+import project.Board;
+import project.Solver;
 
 public class AStarSolver extends Solver{
 	private class SearchNode implements Comparable<SearchNode> {
@@ -30,7 +33,7 @@ public class AStarSolver extends Solver{
 	
 	/**
 	 *  Find the solution of the initial board using the A* algorithm.	 *
-	 * @param initial		The Board to be solved
+	 * @param initial The Board to be solved
 	 */
 	public AStarSolver(Board initial) {
     	MinPQ<SearchNode> pq = new MinPQ<SearchNode>();

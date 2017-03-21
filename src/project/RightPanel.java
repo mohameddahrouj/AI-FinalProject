@@ -17,8 +17,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import algorithms.AStarSolver;
+import algorithms.BFSSolver;
+import algorithms.SearchAnnealingSolver;
+
 /**
- * Panel that contains the right sidebar (settings).
+ * Control Panel - RHS.
  */
 @SuppressWarnings("serial")
 public class RightPanel extends JPanel {
@@ -27,7 +31,7 @@ public class RightPanel extends JPanel {
 	private JButton btnSolve;
 	private JButton btnShow;
 	private JRadioButton rbAStar;
-	private JRadioButton rbDFS;
+	private JRadioButton rbSearchAnnealing;
 	private JRadioButton rbBFS;
 	private JLabel lbMoves;
 	private JLabel lbExpNodes;
@@ -37,7 +41,7 @@ public class RightPanel extends JPanel {
 	private Solver s;
 	
 	/**
-	 * Creates right sidebar
+	 * Creates right side bar
 	 */
 	public RightPanel() {
 		setPreferredSize(new Dimension(300,630));
@@ -52,12 +56,19 @@ public class RightPanel extends JPanel {
 	 * Initializes combobox, radiobuttons and button
 	 */
 	private void initComponents() {
+		//Puzzle list
 		cbPuzzles = new JComboBox<>();
-		rbAStar   = new JRadioButton("A*");
-		rbDFS     = new JRadioButton("DFS");
-		rbBFS 	  = new JRadioButton("BFS");
-		btnSolve  = new JButton("Solve");
-		btnShow  = new JButton("Show");
+		
+		//Search algorithms
+		rbAStar = new JRadioButton("A*");
+		rbSearchAnnealing = new JRadioButton("Search Annealing");
+		rbBFS = new JRadioButton("BFS");
+		
+		//Buttons
+		btnSolve = new JButton("Solve");
+		btnShow = new JButton("Show");
+		
+		//Analytics
 		lbMoves = new JLabel("");
 		lbExpNodes = new JLabel("");
 		lbTime = new JLabel("");
@@ -65,7 +76,7 @@ public class RightPanel extends JPanel {
 		cbPuzzles.setBounds(50, 0, 200, 30);
 		rbAStar.setBounds(50, 50, 50, 50);
 		rbBFS.setBounds(120, 50, 75, 50);
-		rbDFS.setBounds(190, 50, 75, 50);
+		rbSearchAnnealing.setBounds(190, 50, 75, 50);
 		btnSolve.setBounds(50, 140, 100, 50);
 		btnShow.setBounds(155, 140, 100, 50);
 		lbMoves.setBounds(50, 220, 300, 30);
@@ -76,27 +87,29 @@ public class RightPanel extends JPanel {
 		cbPuzzles.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		rbAStar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		rbBFS.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		rbDFS.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		rbSearchAnnealing.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnSolve.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnShow.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		rbAStar.setFocusPainted(false);
 		rbBFS.setFocusPainted(false);
-		rbDFS.setFocusPainted(false);
+		rbSearchAnnealing.setFocusPainted(false);
 		btnSolve.setFocusPainted(false);
 		btnShow.setFocusPainted(false);
 
 		rbAStar.setBackground(Color.LIGHT_GRAY);
 		rbBFS.setBackground(Color.LIGHT_GRAY);
-		rbDFS.setBackground(Color.LIGHT_GRAY);
+		rbSearchAnnealing.setBackground(Color.LIGHT_GRAY);
 		lbMoves.setBackground(Color.LIGHT_GRAY);
 		lbExpNodes.setBackground(Color.LIGHT_GRAY);
 		lbTime.setBackground(Color.LIGHT_GRAY);
 		
+		//Mutex
 		ButtonGroup radioGroup = new ButtonGroup();
 		radioGroup.add(rbAStar);
 		radioGroup.add(rbBFS);
-		radioGroup.add(rbDFS);
+		radioGroup.add(rbSearchAnnealing);
 
+		//Add action listeners
 		cbPuzzles.addActionListener(new ComboBoxListener());
 		btnSolve.addActionListener(new SolveButtonListener());
 		btnShow.addActionListener(new ShowButtonListener());
@@ -106,7 +119,7 @@ public class RightPanel extends JPanel {
 		add(cbPuzzles);
 		add(rbAStar);
 		add(rbBFS);
-		add(rbDFS);
+		add(rbSearchAnnealing);
 		add(btnSolve);
 		add(btnShow);
 		add(lbMoves);
@@ -115,7 +128,7 @@ public class RightPanel extends JPanel {
 	}
 
 	/**
-	 * Loads puzzles from .puzzle files in /puzzles
+	 * Loads possible parking configs from .puzzle files in /puzzles
 	 */
 	private void loadPuzzles() {
 		File puzzlesDir = new File("puzzles/");
@@ -126,6 +139,7 @@ public class RightPanel extends JPanel {
 		}
 	}
 
+	//Parking config action listener
 	private class ComboBoxListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -136,12 +150,14 @@ public class RightPanel extends JPanel {
 		}
 	}
 
+	//Solve button action listener
 	private class SolveButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 				new SolverThread().start();
 		}
 	}
 	
+	//Solution action listener
 	private class ShowButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -159,7 +175,7 @@ public class RightPanel extends JPanel {
 			cbPuzzles.setEnabled(false);
 			rbAStar.setEnabled(false);
 			rbBFS.setEnabled(false);
-			rbDFS.setEnabled(false);
+			rbSearchAnnealing.setEnabled(false);
 			
 			BoardFile bFile= (BoardFile)cbPuzzles.getSelectedItem();
 			Scanner in = null;
@@ -179,11 +195,10 @@ public class RightPanel extends JPanel {
 				s = new AStarSolver(initial);
 			else if (rbBFS.isSelected())
 				s = new BFSSolver(initial);
-			else if (rbDFS.isSelected())
-				s = new DFSSolver(initial);
+			else if (rbSearchAnnealing.isSelected())
+				s = new SearchAnnealingSolver(initial);
 			else {
-				JOptionPane.showMessageDialog(null,
-						"You should select an algorithm");
+				JOptionPane.showMessageDialog(null, "You should select an algorithm");
 				solving = false;
 				
 				lbMoves.setText("Number of Moves: N/A");
@@ -195,12 +210,12 @@ public class RightPanel extends JPanel {
 				cbPuzzles.setEnabled(true);
 				rbAStar.setEnabled(true);
 				rbBFS.setEnabled(true);
-				rbDFS.setEnabled(true);
+				rbSearchAnnealing.setEnabled(true);
 				return;
 			}
 			
 			lbMoves.setText("Number of Moves: " + s.moves());
-			lbExpNodes.setText("Number of Expanded Nodes " + s.expandedNodes());
+			lbExpNodes.setText("Number of Nodes Processed: " + s.expandedNodes());
 			lbTime.setText("Running time: " + s.getRunningTime());
 			
 			btnSolve.setEnabled(true);
@@ -208,7 +223,7 @@ public class RightPanel extends JPanel {
 			cbPuzzles.setEnabled(true);
 			rbAStar.setEnabled(true);
 			rbBFS.setEnabled(true);
-			rbDFS.setEnabled(true);
+			rbSearchAnnealing.setEnabled(true);
 		}
 	}
 
@@ -220,24 +235,28 @@ public class RightPanel extends JPanel {
 			cbPuzzles.setEnabled(false);
 			rbAStar.setEnabled(false);
 			rbBFS.setEnabled(false);
-			rbDFS.setEnabled(false);
+			rbSearchAnnealing.setEnabled(false);
 			
 			if (s.isSolvable())
 				for (Action a : s.solution()) {
-					if (a.getBlock() == 'X')
+					if (a.getBlock() == 'X'){
 						Shared.board.blocks[0].move(100 * a.getMoves());
-					else if (a.getBlock() != '?')
+						//Prints the board
+						System.out.println(a.getBoard());
+					}
+					else if (a.getBlock() != '?'){
 						Shared.board.blocks[a.getBlock() - 96].move(100 * a.getMoves());
+						System.out.println(a.getBoard());
+					}
 				}
 			else
-				JOptionPane.showMessageDialog(null,
-						"The board you selected has no solution");
+				JOptionPane.showMessageDialog(null, "The board you selected has no solution");
 			btnSolve.setEnabled(true);
 			btnShow.setEnabled(true);
 			cbPuzzles.setEnabled(true);
 			rbAStar.setEnabled(true);
 			rbBFS.setEnabled(true);
-			rbDFS.setEnabled(true);
+			rbSearchAnnealing.setEnabled(true);
 			
 			Shared.board.blocks[0].setBackground(Color.GREEN);
 		}

@@ -1,12 +1,15 @@
-package project;
+package algorithms;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import datastructures.Stack;
+import project.Action;
+import project.Board;
+import project.Solver;
 
-public class DFSSolver extends Solver{
+public class SearchAnnealingSolver extends Solver{
 	private class SearchNode {
 	    private Board board;
 	    private int moves;
@@ -20,11 +23,11 @@ public class DFSSolver extends Solver{
 	}
 			
 	/**
-	 *  Find the solution of the initial board using the DFS algorithm.
-	 * @param initial		The Board to be solved
+	 *  Find the solution of the initial board using the Search Annealing algorithm.
+	 * @param initial The Board to be solved
 	 */
-	public DFSSolver(Board initial) {
-    	// find a solution to the initial board (using the DFS algorithm)
+	public SearchAnnealingSolver(Board initial) {
+    	// find a solution to the initial board (using the Search Annealing algorithm)
     	Stack<SearchNode> stack = new Stack<SearchNode>();
     	ArrayList<Board> explored = new ArrayList<Board>();
 
@@ -105,7 +108,7 @@ public class DFSSolver extends Solver{
                 blocks[i][j] = in.next().charAt(0);
         Board initial = new Board(blocks);
       
-        DFSSolver solver = new DFSSolver(initial);      
+        SearchAnnealingSolver solver = new SearchAnnealingSolver(initial);      
         System.out.println("Minimum number of moves = " + solver.moves());
         for (Action a: solver.solution())
         	System.out.println(a);

@@ -1,24 +1,28 @@
 package project;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import javax.swing.JFrame;
 
 
 @SuppressWarnings("serial")
 public class App extends JFrame {
 	
+	//Runner class
 	public App() {
+		//Initialize frame
 		Shared.app = this;
-		setTitle("Solver");
-		setSize(new Dimension(930, 650));
+		setTitle("COMP 4106- Parking Optimization");
+		//Set the size of the frame
+		setSize(new Dimension(930, 700));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setLayout(new BorderLayout());
 		
-		BoardPanel board		= new BoardPanel();
+		//Initialize board panel
+		BoardPanel board = new BoardPanel();
 		Shared.board = board;
+		//Initialize control panel
 		RightPanel rightSidebar = new RightPanel();
 
 		getContentPane().add(rightSidebar, BorderLayout.EAST);

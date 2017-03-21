@@ -1,4 +1,4 @@
-package project;
+package algorithms;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -6,6 +6,9 @@ import java.util.Scanner;
 
 import datastructures.Queue;
 import datastructures.Stack;
+import project.Action;
+import project.Board;
+import project.Solver;
 
 public class BFSSolver extends Solver{
 	private class SearchNode{
@@ -22,7 +25,7 @@ public class BFSSolver extends Solver{
 			 
 	/**
 	 *  Find the solution of the initial board using the BFS algorithm.
-	 * @param initial		The Board to be solved
+	 * @param initial The Board to be solved
 	 */
 	public BFSSolver(Board initial) {
     	Queue<SearchNode> queue = new Queue<SearchNode>();

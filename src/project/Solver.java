@@ -2,6 +2,12 @@ package project;
 import datastructures.Stack;
 
 
+/**
+ * Abstract class for search algorithms
+ * Each class has its own Node class as opposed to sharing one
+ * @author Mohamed Dahrouj
+ *
+ */
 public abstract class Solver {
 	protected boolean solvable;
 	protected int moves = -1;
@@ -10,13 +16,13 @@ public abstract class Solver {
 	protected long time = 0;
 		
 	/**
-	 *  Check whether the puzzle is solvable or not
+	 *  Is board solvable?
 	 *  @return true if the Board is solvable.
 	 */
 	protected abstract boolean isSolvable();
 
 	/**
-	 *  Get the number of moves in the solution
+	 *  Number of moves in solution
 	 *  @return The number of moves in the solution
 	 */
 	protected abstract int moves();
@@ -32,8 +38,6 @@ public abstract class Solver {
 	 *  @return The running time of the Solver
 	 */	
     protected abstract long getRunningTime();
-    
-
 
 	/**
 	 *  Gets the solution to the solver
