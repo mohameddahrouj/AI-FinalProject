@@ -13,7 +13,7 @@ public class App extends JFrame {
 		Shared.app = this;
 		setTitle("COMP 4106- Parking Optimization");
 		//Set the size of the frame
-		setSize(new Dimension(930, 700));
+		setSize(new Dimension(970, 700));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);

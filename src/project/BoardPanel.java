@@ -18,7 +18,7 @@ public class BoardPanel extends JPanel {
 	
 	// Board Panel constructor
 	public BoardPanel() {
-		setSize(630, 640);
+		setSize(660, 640);
 		setLayout(null);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));
 		setBackground(new Color(222, 184, 135));

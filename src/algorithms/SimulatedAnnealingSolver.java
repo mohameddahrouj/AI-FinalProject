@@ -9,7 +9,7 @@ import project.Action;
 import project.Board;
 import project.Solver;
 
-public class SearchAnnealingSolver extends Solver{
+public class SimulatedAnnealingSolver extends Solver{
 	private class SearchNode {
 	    private Board board;
 	    private int moves;
@@ -23,11 +23,11 @@ public class SearchAnnealingSolver extends Solver{
 	}
 			
 	/**
-	 *  Find the solution of the initial board using the Search Annealing algorithm.
+	 *  Find the solution of the initial board using the Simulated Annealing algorithm.
 	 * @param initial The Board to be solved
 	 */
-	public SearchAnnealingSolver(Board initial) {
-    	// find a solution to the initial board (using the Search Annealing algorithm)
+	public SimulatedAnnealingSolver(Board initial) {
+    	// find a solution to the initial board (using the Simulated Annealing algorithm)
     	Stack<SearchNode> stack = new Stack<SearchNode>();
     	ArrayList<Board> explored = new ArrayList<Board>();
 
@@ -108,7 +108,7 @@ public class SearchAnnealingSolver extends Solver{
                 blocks[i][j] = in.next().charAt(0);
         Board initial = new Board(blocks);
       
-        SearchAnnealingSolver solver = new SearchAnnealingSolver(initial);      
+        SimulatedAnnealingSolver solver = new SimulatedAnnealingSolver(initial);      
         System.out.println("Minimum number of moves = " + solver.moves());
         for (Action a: solver.solution())
         	System.out.println(a);

@@ -2,6 +2,7 @@ package project;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -19,7 +20,7 @@ import javax.swing.JRadioButton;
 
 import algorithms.AStarSolver;
 import algorithms.BFSSolver;
-import algorithms.SearchAnnealingSolver;
+import algorithms.SimulatedAnnealingSolver;
 
 /**
  * Control Panel - RHS.
@@ -36,6 +37,9 @@ public class RightPanel extends JPanel {
 	private JLabel lbMoves;
 	private JLabel lbExpNodes;
 	private JLabel lbTime;
+	private JLabel lbParkingConfig;
+	private JLabel lbAlgorithms;
+	private JLabel lbAnalytics;
 	
 	public static boolean solving = false;
 	private Solver algorithm;
@@ -44,7 +48,7 @@ public class RightPanel extends JPanel {
 	 * Creates right side bar
 	 */
 	public RightPanel() {
-		setPreferredSize(new Dimension(300,630));
+		setPreferredSize(new Dimension(330,630));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
 		initializeComponents();
@@ -55,36 +59,47 @@ public class RightPanel extends JPanel {
 	 * Initializes combobox, radiobuttons and button
 	 */
 	private void initializeComponents() {
+		
+		lbParkingConfig = new JLabel("Parking Configuration:");
+		
 		//Puzzle list
 		cbPuzzles = new JComboBox<>();
 		
+		lbAlgorithms = new JLabel("Algorithms:");
+		
 		//Search algorithms
 		rbAStar = new JRadioButton("A*");
-		rbSearchAnnealing = new JRadioButton("Search Annealing");
+		rbSearchAnnealing = new JRadioButton("Simulated Annealing");
 		rbBFS = new JRadioButton("BFS");
 		
 		//Buttons
 		btnSolve = new JButton("Solve");
 		btnShow = new JButton("Show");
 		
+		lbAnalytics = new JLabel("Analytics:");
+		
 		//Analytics
-		lbMoves = new JLabel("");
-		lbExpNodes = new JLabel("");
-		lbTime = new JLabel("");
+		lbMoves = new JLabel("Number of Moves: N/A");
+		lbExpNodes = new JLabel("Number of Expanded Nodes N/A");
+		lbTime = new JLabel("Running time: N/A");
 		
-		cbPuzzles.setBounds(50, 0, 200, 30);
+		lbParkingConfig.setBounds(50, 0, 200, 30);
+		cbPuzzles.setBounds(50, 30, 200, 30);
 		
-		rbAStar.setBounds(50, 50, 50, 50);
-		rbBFS.setBounds(100, 50, 50, 50);
-		rbSearchAnnealing.setBounds(160, 50, 200, 50);
+		lbAlgorithms.setBounds(50, 60, 75, 50);
+		rbAStar.setBounds(50, 95, 50, 30);
+		rbBFS.setBounds(100, 95, 50, 30);
+		rbSearchAnnealing.setBounds(160, 95, 200, 30);
 		
 		btnSolve.setBounds(50, 140, 100, 50);
 		btnShow.setBounds(155, 140, 100, 50);
-		lbMoves.setBounds(50, 220, 300, 30);
-		lbExpNodes.setBounds(50, 260, 300, 30);
-		lbTime.setBounds(50, 300, 300, 30);
 		
-		cbPuzzles.setToolTipText("Pick a puzzle to solve");
+		lbAnalytics.setBounds(50, 190 , 100, 50);
+		lbMoves.setBounds(50, 230, 300, 20);
+		lbExpNodes.setBounds(50, 260, 300, 20);
+		lbTime.setBounds(50, 290, 290, 20);
+		
+		cbPuzzles.setToolTipText("Choose a parking configuration to solve");
 		cbPuzzles.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		rbAStar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		rbBFS.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -117,12 +132,15 @@ public class RightPanel extends JPanel {
 
 		btnShow.setEnabled(false);
 		
+		add(lbParkingConfig);
 		add(cbPuzzles);
+		add(lbAlgorithms);
 		add(rbAStar);
 		add(rbBFS);
 		add(rbSearchAnnealing);
 		add(btnSolve);
 		add(btnShow);
+		add(lbAnalytics);
 		add(lbMoves);
 		add(lbExpNodes);
 		add(lbTime);
@@ -197,14 +215,10 @@ public class RightPanel extends JPanel {
 			else if (rbBFS.isSelected())
 				algorithm = new BFSSolver(initial);
 			else if (rbSearchAnnealing.isSelected())
-				algorithm = new SearchAnnealingSolver(initial);
+				algorithm = new SimulatedAnnealingSolver(initial);
 			else {
-				JOptionPane.showMessageDialog(null, "You should select an algorithm");
+				JOptionPane.showMessageDialog(null, "Please select a search algorithm!", "Warning", JOptionPane.WARNING_MESSAGE);
 				solving = false;
-				
-				lbMoves.setText("Number of Moves: N/A");
-				lbExpNodes.setText("Number of Expanded Nodes N/A");
-				lbTime.setText("Running time: N/A");
 				
 				btnSolve.setEnabled(true);
 				btnShow.setEnabled(true);
@@ -217,7 +231,7 @@ public class RightPanel extends JPanel {
 			
 			lbMoves.setText("Number of Moves: " + algorithm.moves());
 			lbExpNodes.setText("Number of Nodes Processed: " + algorithm.expandedNodes());
-			lbTime.setText("Running time: " + algorithm.getRunningTime());
+			lbTime.setText("Running time: " + algorithm.getRunningTime() + " ms");
 			
 			btnSolve.setEnabled(true);
 			btnShow.setEnabled(true);
