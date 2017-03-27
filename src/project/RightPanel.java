@@ -2,7 +2,6 @@ package project;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -20,6 +19,7 @@ import javax.swing.JRadioButton;
 
 import algorithms.AStarSolver;
 import algorithms.BFSSolver;
+import algorithms.Scheduler;
 import algorithms.SimulatedAnnealingSolver;
 
 /**
@@ -215,7 +215,7 @@ public class RightPanel extends JPanel {
 			else if (rbBFS.isSelected())
 				algorithm = new BFSSolver(initial);
 			else if (rbSearchAnnealing.isSelected())
-				algorithm = new SimulatedAnnealingSolver(initial);
+				algorithm = new SimulatedAnnealingSolver(initial, new Scheduler(20, 0.00045, 1000000));
 			else {
 				JOptionPane.showMessageDialog(null, "Please select a search algorithm!", "Warning", JOptionPane.WARNING_MESSAGE);
 				solving = false;
