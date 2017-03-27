@@ -6,9 +6,7 @@ import java.util.TreeMap;
 
 /**
  * Stores key-value pairs for efficiency analysis.
- * 
- * @author Ravi Mohan
- * @author Ruediger Lunde
+ * Based on AIMA
  */
 public class Metrics {
 	private Hashtable<String, String> hash;
