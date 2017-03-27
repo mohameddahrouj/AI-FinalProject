@@ -1,5 +1,6 @@
 package project;
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -68,7 +69,7 @@ public class Board {
     }
     
     public boolean isGoal() {
-    	//Location were main block and goal are
+    	//Row were main block and goal are
     	int i = N%2 == 0? N/2 - 1 : N/2;
     	
     	//Checks to see if block is in the goal position
@@ -98,9 +99,9 @@ public class Board {
     }
     
     //Generates the successors for the production system
-    public Iterable<Board> neighbors() {
+    public ArrayList<Board> neighbors() {
         // all children boards
-        Stack<Board> neighbors = new Stack<Board>();
+        ArrayList<Board> neighbors = new ArrayList<>();
 
         int tempi = 0, tempj = 0;
         char[][] tempBoard = cloneBoard();
@@ -120,7 +121,7 @@ public class Board {
 		                		    aux--;
 		                	    swapAndStore(tempBoard, aux, ++tempi, j, j);
 		                	    Board b = new Board(tempBoard, value, tempi - i + 1);
-		                        neighbors.push(b);
+		                        neighbors.add(b);
                 		    }
                 	    }   
 		                
@@ -138,7 +139,7 @@ public class Board {
 		                		    aux--;
 		                	    swapAndStore(tempBoard, i, i, aux, ++tempj);
 		                	    Board b = new Board(tempBoard, value, tempj - j + 1);
-		                        neighbors.push(b);
+		                        neighbors.add(b);
                 		    }
                 	    }   
 		                
@@ -156,7 +157,7 @@ public class Board {
 		                		    aux++;
 		                	    swapAndStore(tempBoard, aux, --tempi, j, j);
 		                	    Board b = new Board(tempBoard, value, tempi - i - 1);
-		                        neighbors.push(b);
+		                        neighbors.add(b);
                 		    }
                 	    }   
 		                tempBoard = cloneBoard();
@@ -173,7 +174,7 @@ public class Board {
 		                		    aux++;
 		                	    swapAndStore(tempBoard, i, i, aux, --tempj);
 		                	    Board b = new Board(tempBoard, value, tempj -j - 1);
-		                        neighbors.push(b);
+		                        neighbors.add(b);
                 		    }
                 	    }   
 		                tempBoard = cloneBoard();
@@ -196,13 +197,54 @@ public class Board {
         }
 
         return s;
-    }    
+    }
     
     public Action getAction() {
     	return new Action(blockMoved, spacesMoved, this);
     }
     
-    //Swaps and stores two values in an array
+    public double getHeuristic(int algorithmNumber) {
+    	int heuristic = 0;
+    	if (algorithmNumber == 1){
+    		heuristic = evaluateAStarHeuristic();
+    	}
+    	if (algorithmNumber == 3){
+    		heuristic = evaluateAnnealingHeuristic();
+    	}
+    	return heuristic;
+    }
+    
+	private int evaluateAStarHeuristic() {
+		// TODO Auto-generated method stub
+		return 0;
+		
+	}
+    
+    private int evaluateAnnealingHeuristic() {
+		// TODO Auto-generated method stub
+		//return new Random().nextInt(65) * priority;
+    		return priority * (
+    				Math.abs(getBlockedCarColumn() - getBlockedCarRow())
+    				+ Math.abs((N%2 == 0? N/2 - 1 : N/2) - (N-1))			
+    		);
+	}
+
+	private int getBlockedCarColumn() {
+		for (int i = 0; i < N; i++){
+			for (int j = 0; j < N; j++){
+				if(blocks[i][j] == 'X'){
+            		return j;
+            	}
+			}
+		}
+		return 0;
+	}
+    
+	private int getBlockedCarRow() {
+		return N%2 == 0? N/2 - 1: N/2;
+	}
+
+	//Swaps and stores two values in an array
     private void swapAndStore(char[][] array, int row1, int row2, int col1, int col2) {
         char temp = array[row1][col1];
         array[row1][col1] = array[row2][col2];
