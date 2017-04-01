@@ -5,18 +5,18 @@ import javax.swing.JFrame;
 
 
 @SuppressWarnings("serial")
-public class App extends JFrame {
+public class AppRunner extends JFrame {
 	
 	//Runner class
-	public App() {
+	public AppRunner() {
 		//Initialize frame
-		Shared.app = this;
+		Shared.appRunner = this;
 		setTitle("COMP 4106- Parking Optimization");
 		//Set the size of the frame
 		setSize(new Dimension(970, 700));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setResizable(false);
+		setResizable(true);
 		setLayout(new BorderLayout());
 		
 		//Initialize board panel
@@ -28,10 +28,11 @@ public class App extends JFrame {
 		getContentPane().add(rightSidebar, BorderLayout.EAST);
 		getContentPane().add(board, BorderLayout.CENTER);
 		setVisible(true);
+		//pack();
 	}
 	
 	public static void main(String[] args) throws InterruptedException {
-		new App();
+		new AppRunner();
 	}
 	
 }
