@@ -90,10 +90,6 @@ public class SimulatedAnnealingSolver extends Solver{
 	 */
 	public SimulatedAnnealingSolver(Board initial, Scheduler scheduler) {
 		time = System.currentTimeMillis();
-		int waiter = scheduler.getLimit();
-		while(waiter>0){
-			waiter = (int) (waiter - scheduler.getDecrementer());
-		}
 			
 		clearInstrumentation();
 		solvable = false;
@@ -156,6 +152,11 @@ public class SimulatedAnnealingSolver extends Solver{
 				}
 			//}
 		}
+		int waiter = 2* scheduler.getLimit();
+		while(waiter>0){
+			waiter = (int) (waiter - scheduler.getDecrementer());
+		}
+		
 		time = System.currentTimeMillis() - time;
     	
     	if (pq.isEmpty()) {

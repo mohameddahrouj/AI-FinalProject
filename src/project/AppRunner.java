@@ -13,7 +13,7 @@ public class AppRunner extends JFrame {
 		Shared.appRunner = this;
 		setTitle("COMP 4106- Parking Optimization");
 		//Set the size of the frame
-		setSize(new Dimension(970, 700));
+		setSize(new Dimension(1000, 720));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(true);
