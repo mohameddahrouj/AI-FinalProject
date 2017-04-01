@@ -1,7 +1,6 @@
 package project;
 import java.util.ArrayList;
 
-
 /**
  * Board representing the parking lot
  * State representation: char 2D array
@@ -220,12 +219,8 @@ public class Board {
 	}
     
     private int evaluateAnnealingHeuristic() {
-		// TODO Auto-generated method stub
-		//return new Random().nextInt(65) * priority;
-    		return priority * (
-    				Math.abs(getBlockedCarColumn() - getBlockedCarRow())
-    				+ Math.abs((N%2 == 0? N/2 - 1 : N/2) - (N-1))			
-    		);
+		//Manhattan Heuristic
+    	return priority * (Math.abs(getBlockedCarColumn() - getBlockedCarRow()) + Math.abs((N%2 == 0? N/2 - 1 : N/2) - (N-1)));
 	}
 
 	private int getBlockedCarColumn() {
