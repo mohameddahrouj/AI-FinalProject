@@ -105,7 +105,7 @@ public class MinPQ<Key> implements Iterable<Key> {
      */
     public Key delMin() {
         if (isEmpty()) throw new NoSuchElementException("Priority queue underflow");
-        exch(1, N);
+        swap(1, N);
         Key min = pq[N--];
         sink(1);
         pq[N+1] = null;         // avoid loitering and help with garbage collection
@@ -121,7 +121,7 @@ public class MinPQ<Key> implements Iterable<Key> {
 
     private void swim(int k) {
         while (k > 1 && greater(k/2, k)) {
-            exch(k, k/2);
+            swap(k, k/2);
             k = k/2;
         }
     }
@@ -131,7 +131,7 @@ public class MinPQ<Key> implements Iterable<Key> {
             int j = 2*k;
             if (j < N && greater(j, j+1)) j++;
             if (!greater(k, j)) break;
-            exch(k, j);
+            swap(k, j);
             k = j;
         }
     }
@@ -149,7 +149,7 @@ public class MinPQ<Key> implements Iterable<Key> {
         }
     }
 
-    private void exch(int i, int j) {
+    private void swap(int i, int j) {
         Key swap = pq[i];
         pq[i] = pq[j];
         pq[j] = swap;
