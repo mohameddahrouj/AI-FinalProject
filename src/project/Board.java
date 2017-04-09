@@ -186,7 +186,7 @@ public class Board {
     
     //String representation of the board
     public String toString() {
-        String s = "Block Moved: " + blockMoved + ", " + "Spaces Moved: " +spacesMoved + "\n";
+        String s = "Vehicle Moved: " + blockMoved + ", " + "Spaces Moved: " +spacesMoved + "\n";
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++)
                 s += blocks[i][j] + " ";
@@ -213,8 +213,13 @@ public class Board {
     }
     
 	private int evaluateAStarHeuristic() {
-		// TODO Auto-generated method stub
-		return 0;
+		//Euclidean Distance
+		return (int) (priority * 
+				Math.sqrt(
+					Math.abs(Math.pow(getBlockedCarColumn() - getBlockedCarRow(), 2))
+					+ 
+					Math.abs(Math.pow(getGoalColumn() - getGoalRow(), 2))
+				));
 		
 	}
     
@@ -237,6 +242,16 @@ public class Board {
 	private int getBlockedCarRow() {
 		return N%2 == 0? N/2 - 1: N/2;
 	}
+	
+	private int getGoalRow(){
+		return N%2 == 0? N/2 - 1 : N/2;	
+	}
+	
+	private int getGoalColumn(){
+		return N-1;	
+	}
+	
+	
 
 	//Swaps and stores two values in an array
     private void swapAndStore(char[][] array, int row1, int row2, int col1, int col2) {

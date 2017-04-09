@@ -76,7 +76,7 @@ public class RightPanel extends JPanel {
 		btnSolve = new JButton("Solve");
 		btnShow = new JButton("Show");
 		
-		lbAnalytics = new JLabel("Analytics:");
+		lbAnalytics = new JLabel("Metrics:");
 		
 		//Analytics
 		lbMoves = new JLabel("Number of Moves: N/A");
@@ -252,20 +252,28 @@ public class RightPanel extends JPanel {
 			rbBFS.setEnabled(false);
 			rbSearchAnnealing.setEnabled(false);
 			
-			if (algorithm.isSolvable())
+			int stepCount = 0;
+			
+			if (algorithm.isSolvable()){
 				for (Action a : algorithm.solution()) {
 					if (a.getBlock() == 'X'){
 						Shared.board.blocks[0].move(100 * a.getMoves());
-						//Prints the board
-						System.out.println(a.getBoard());
 					}
 					else if (a.getBlock() != '?'){
 						Shared.board.blocks[a.getBlock() - 96].move(100 * a.getMoves());
-						System.out.println(a.getBoard());
 					}
+					//Prints the board
+					System.out.println("Step: " + stepCount);
+					System.out.println(a.getBoard());
+					stepCount++;
 				}
-			else
+				System.out.println("Success...");
+			}
+			else{
 				JOptionPane.showMessageDialog(null, "The board you selected has no solution");
+				System.out.println("No solution found...");
+			}
+			
 			btnSolve.setEnabled(true);
 			btnShow.setEnabled(true);
 			cbPuzzles.setEnabled(true);
