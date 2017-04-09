@@ -8,7 +8,7 @@ public class Action {
 	/**
 	 *  Initializes the action
 	 *  @param block A char representing the block to move
-	 *  @param moves An int containing how times the block moved
+	 *  @param moves An int containing how many times the block moved
 	 */
 	public Action(char block, int moves, Board board) {
 		this.block = block;
