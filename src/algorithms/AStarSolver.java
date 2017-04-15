@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import datastructures.MinPQ;
+import datastructures.MinPriorityQ;
 import datastructures.Stack;
 import project.Action;
 import project.Board;
@@ -36,7 +36,7 @@ public class AStarSolver extends Solver{
 	 * @param initial The Board to be solved
 	 */
 	public AStarSolver(Board initial) {
-    	MinPQ<SearchNode> pq = new MinPQ<SearchNode>();
+    	MinPriorityQ<SearchNode> pq = new MinPriorityQ<SearchNode>();
     	ArrayList<Board> explored = new ArrayList<Board>();
     	
     	time = System.currentTimeMillis();
@@ -98,7 +98,7 @@ public class AStarSolver extends Solver{
 	
 	public static void main(String[] args) {
 		 // create initial board from file
-		File file = new File("puzzles/Beginner-02.puzzle");
+		File file = new File("puzzles/Easy-02.puzzle");
 		
 		Scanner in = null;
 		try {
@@ -126,5 +126,7 @@ public class AStarSolver extends Solver{
         
         for (Action a : solver.solution())
         	System.out.println(a);
+        
+        System.out.println(solver.expNodes);
 	}
 }

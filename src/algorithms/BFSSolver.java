@@ -91,7 +91,7 @@ public class BFSSolver extends Solver{
 	
 	public static void main(String[] args) {
 		 // create initial board from file
-		File file = new File("puzzles/Beginner-02.puzzle");
+		File file = new File("puzzles/Easy-02.puzzle");
 		
 		Scanner in = null;
 		try {

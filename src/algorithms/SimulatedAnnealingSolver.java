@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import datastructures.MinPQ;
+import datastructures.MinPriorityQ;
 import datastructures.Stack;
 import project.Action;
 import project.Board;
@@ -102,7 +102,7 @@ public class SimulatedAnnealingSolver extends Solver{
 		// for t = 1 to INFINITY do
 		int timeStep = 0;
 		
-		MinPQ<SearchNode> pq = new MinPQ<SearchNode>();
+		MinPriorityQ<SearchNode> pq = new MinPriorityQ<SearchNode>();
 		pq.insert(new SearchNode(initial, 0, null));
 		
 		while (!pq.isEmpty()) {
@@ -125,7 +125,7 @@ public class SimulatedAnnealingSolver extends Solver{
 			}
 
 			updateMetrics(temperature, getValue(current));
-			//expNodes++;
+			expNodes++;
 			//ArrayList<Board> children = current.board.neighbors();
 			//if (children.size() > 0) {
 				for(Board b: current.board.neighbors()){
@@ -140,10 +140,10 @@ public class SimulatedAnnealingSolver extends Solver{
 					next = new SearchNode(b, current.moves+1, current);
 					// /\E <- next.VALUE - current.value
 					double deltaE = getValue(next) - getValue(current);
-	
+					//expNodes++;
 					if (!visitedBoards.contains(b)) {
 						if(shouldAccept(temperature, deltaE)){
-							expNodes++;
+							//expNodes++;
 							//current = new SearchNode(b, current.moves+1, current);
 							pq.insert(new SearchNode(b, current.moves+1, current));
 						}
@@ -151,10 +151,6 @@ public class SimulatedAnnealingSolver extends Solver{
 					}
 				}
 			//}
-		}
-		int waiter = 2* scheduler.getLimit();
-		while(waiter>0){
-			waiter = (int) (waiter - scheduler.getDecrementer());
 		}
 		
 		time = System.currentTimeMillis() - time;
@@ -197,7 +193,7 @@ public class SimulatedAnnealingSolver extends Solver{
 	}
 	
 	public static void main(String[] args) {
-		File file = new File("puzzles/Beginner-02.puzzle");
+		File file = new File("puzzles/Easy-02.puzzle");
 		
 		Scanner in = null;
 		try {
@@ -217,5 +213,7 @@ public class SimulatedAnnealingSolver extends Solver{
         System.out.println("Minimum number of moves = " + solver.moves());
         for (Action a: solver.solution())
         	System.out.println(a);
+        
+        System.out.println(solver.expNodes);
 	}
 }

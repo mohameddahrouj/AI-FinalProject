@@ -4,16 +4,16 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class MinPQ<Key> implements Iterable<Key> {
-    private Key[] pq;                    // store items at indices 1 to N
-    private int N;                       // number of items on priority queue
-    private Comparator<Key> comparator;  // optional comparator
+public class MinPriorityQ<Key> implements Iterable<Key> {
+    private Key[] pq;
+    private int N;
+    private Comparator<Key> comparator;
 
    /**
      * Create an empty priority queue with the given initial capacity.
      */
     @SuppressWarnings("unchecked")
-	public MinPQ(int initCapacity) {
+	public MinPriorityQ(int initCapacity) {
         pq = (Key[]) new Object[initCapacity + 1];
         N = 0;
     }
@@ -21,14 +21,14 @@ public class MinPQ<Key> implements Iterable<Key> {
    /**
      * Create an empty priority queue.
      */
-    public MinPQ() { this(1); }
+    public MinPriorityQ() { this(1); }
 
    /**
      * Create an empty priority queue with the given initial capacity,
      * using the given comparator.
      */
     @SuppressWarnings("unchecked")
-	public MinPQ(int initCapacity, Comparator<Key> comparator) {
+	public MinPriorityQ(int initCapacity, Comparator<Key> comparator) {
         this.comparator = comparator;
         pq = (Key[]) new Object[initCapacity + 1];
         N = 0;
@@ -37,14 +37,14 @@ public class MinPQ<Key> implements Iterable<Key> {
    /**
      * Create an empty priority queue using the given comparator.
      */
-    public MinPQ(Comparator<Key> comparator) { this(1, comparator); }
+    public MinPriorityQ(Comparator<Key> comparator) { this(1, comparator); }
 
    /**
      * Create a priority queue with the given items.
      * Takes time proportional to the number of items using sink-based heap construction.
      */
     @SuppressWarnings("unchecked")
-	public MinPQ(Key[] keys) {
+	public MinPriorityQ(Key[] keys) {
         N = keys.length;
         pq = (Key[]) new Object[keys.length + 1];
         for (int i = 0; i < N; i++)
@@ -114,11 +114,6 @@ public class MinPQ<Key> implements Iterable<Key> {
         return min;
     }
 
-
-   /***********************************************************************
-    * Helper functions to restore the heap invariant.
-    **********************************************************************/
-
     private void swim(int k) {
         while (k > 1 && greater(k/2, k)) {
             swap(k, k/2);
@@ -136,9 +131,6 @@ public class MinPQ<Key> implements Iterable<Key> {
         }
     }
 
-   /***********************************************************************
-    * Helper functions for compares and swaps.
-    **********************************************************************/
     @SuppressWarnings("unchecked")
 	private boolean greater(int i, int j) {
         if (comparator == null) {
@@ -169,28 +161,22 @@ public class MinPQ<Key> implements Iterable<Key> {
         return isMinHeap(left) && isMinHeap(right);
     }
 
-
-   /***********************************************************************
-    * Iterators
-    **********************************************************************/
-
    /**
      * Return an iterator that iterates over all of the keys on the priority queue
      * in ascending order.
-     * <p>
-     * The iterator doesn't implement <tt>remove()</tt> since it's optional.
+     * The iterator doesn't implement remove() since it's optional.
      */
     public Iterator<Key> iterator() { return new HeapIterator(); }
 
     private class HeapIterator implements Iterator<Key> {
         // create a new pq
-        private MinPQ<Key> copy;
+        private MinPriorityQ<Key> copy;
 
         // add all items to copy of heap
         // takes linear time since already in heap order so no keys move
         public HeapIterator() {
-            if (comparator == null) copy = new MinPQ<Key>(size());
-            else                    copy = new MinPQ<Key>(size(), comparator);
+            if (comparator == null) copy = new MinPriorityQ<Key>(size());
+            else                    copy = new MinPriorityQ<Key>(size(), comparator);
             for (int i = 1; i <= N; i++)
                 copy.insert(pq[i]);
         }
