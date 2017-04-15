@@ -28,7 +28,7 @@ import algorithms.SimulatedAnnealingAlgorithm;
 @SuppressWarnings("serial")
 public class ControlPanel extends JPanel {
 
-	private JComboBox<FileUtility> cbPuzzles;
+	private JComboBox<FileUtility> cbParkingLots;
 	private JButton btnSolve;
 	private JButton btnShow;
 	private JRadioButton rbAStar;
@@ -52,7 +52,7 @@ public class ControlPanel extends JPanel {
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
 		initializeComponents();
-		loadPuzzles();
+		loadParkingLots();
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class ControlPanel extends JPanel {
 		
 		lbParkingConfig = new JLabel("Parking Configuration:");
 		
-		//Puzzle list
-		cbPuzzles = new JComboBox<>();
+		//Parking Lot list
+		cbParkingLots = new JComboBox<>();
 		
 		lbAlgorithms = new JLabel("Algorithms:");
 		
@@ -84,7 +84,7 @@ public class ControlPanel extends JPanel {
 		lbTime = new JLabel("Running time: N/A");
 		
 		lbParkingConfig.setBounds(50, 0, 200, 30);
-		cbPuzzles.setBounds(50, 30, 200, 30);
+		cbParkingLots.setBounds(50, 30, 200, 30);
 		
 		lbAlgorithms.setBounds(50, 60, 75, 50);
 		rbAStar.setBounds(50, 95, 50, 30);
@@ -99,8 +99,8 @@ public class ControlPanel extends JPanel {
 		lbExpNodes.setBounds(50, 260, 300, 20);
 		lbTime.setBounds(50, 290, 290, 20);
 		
-		cbPuzzles.setToolTipText("Choose a parking configuration to solve");
-		cbPuzzles.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		cbParkingLots.setToolTipText("Choose a parking configuration to solve");
+		cbParkingLots.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		rbAStar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		rbBFS.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		rbSearchAnnealing.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -126,14 +126,14 @@ public class ControlPanel extends JPanel {
 		radioGroup.add(rbSearchAnnealing);
 
 		//Add action listeners
-		cbPuzzles.addActionListener(new ComboBoxListener());
+		cbParkingLots.addActionListener(new ComboBoxListener());
 		btnSolve.addActionListener(new SolveButtonListener());
 		btnShow.addActionListener(new ShowButtonListener());
 
 		btnShow.setEnabled(false);
 		
 		add(lbParkingConfig);
-		add(cbPuzzles);
+		add(cbParkingLots);
 		add(lbAlgorithms);
 		add(rbAStar);
 		add(rbBFS);
@@ -147,14 +147,14 @@ public class ControlPanel extends JPanel {
 	}
 
 	/**
-	 * Loads possible parking configs from .puzzle files in /puzzles
+	 * Loads possible parking configs from .parking files in /parkingLots
 	 */
-	private void loadPuzzles() {
-		File puzzlesDir = new File("puzzles/");
-		for (File file : puzzlesDir.listFiles()) {
+	private void loadParkingLots() {
+		File parkingLotsDir = new File("parkingLots/");
+		for (File file : parkingLotsDir.listFiles()) {
 			String fileName = file.getName();
-			if (Pattern.matches(".*(\\.puzzle)$", fileName))
-				cbPuzzles.addItem(new FileUtility(file));
+			if (Pattern.matches(".*(\\.parking)$", fileName))
+				cbParkingLots.addItem(new FileUtility(file));
 		}
 	}
 
@@ -162,7 +162,7 @@ public class ControlPanel extends JPanel {
 	private class ComboBoxListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				AppComponents.board.load((FileUtility)cbPuzzles.getSelectedItem());
+				AppComponents.board.load((FileUtility)cbParkingLots.getSelectedItem());
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
@@ -180,7 +180,7 @@ public class ControlPanel extends JPanel {
 	private class ShowButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				AppComponents.board.load((FileUtility)cbPuzzles.getSelectedItem());
+				AppComponents.board.load((FileUtility)cbParkingLots.getSelectedItem());
 				new ShowThread().start();
 			} catch (FileNotFoundException e1) {}
 		}
@@ -191,12 +191,12 @@ public class ControlPanel extends JPanel {
 		public void run() {
 			btnSolve.setEnabled(false);
 			btnShow.setEnabled(false);
-			cbPuzzles.setEnabled(false);
+			cbParkingLots.setEnabled(false);
 			rbAStar.setEnabled(false);
 			rbBFS.setEnabled(false);
 			rbSearchAnnealing.setEnabled(false);
 			
-			FileUtility bFile= (FileUtility)cbPuzzles.getSelectedItem();
+			FileUtility bFile= (FileUtility)cbParkingLots.getSelectedItem();
 			Scanner in = null;
 			try {
 				in = new Scanner(bFile.file());
@@ -222,7 +222,7 @@ public class ControlPanel extends JPanel {
 				
 				btnSolve.setEnabled(true);
 				btnShow.setEnabled(true);
-				cbPuzzles.setEnabled(true);
+				cbParkingLots.setEnabled(true);
 				rbAStar.setEnabled(true);
 				rbBFS.setEnabled(true);
 				rbSearchAnnealing.setEnabled(true);
@@ -235,7 +235,7 @@ public class ControlPanel extends JPanel {
 			
 			btnSolve.setEnabled(true);
 			btnShow.setEnabled(true);
-			cbPuzzles.setEnabled(true);
+			cbParkingLots.setEnabled(true);
 			rbAStar.setEnabled(true);
 			rbBFS.setEnabled(true);
 			rbSearchAnnealing.setEnabled(true);
@@ -247,7 +247,7 @@ public class ControlPanel extends JPanel {
 		public void run() {
 			btnSolve.setEnabled(false);
 			btnShow.setEnabled(false);
-			cbPuzzles.setEnabled(false);
+			cbParkingLots.setEnabled(false);
 			rbAStar.setEnabled(false);
 			rbBFS.setEnabled(false);
 			rbSearchAnnealing.setEnabled(false);
@@ -276,7 +276,7 @@ public class ControlPanel extends JPanel {
 			
 			btnSolve.setEnabled(true);
 			btnShow.setEnabled(true);
-			cbPuzzles.setEnabled(true);
+			cbParkingLots.setEnabled(true);
 			rbAStar.setEnabled(true);
 			rbBFS.setEnabled(true);
 			rbSearchAnnealing.setEnabled(true);

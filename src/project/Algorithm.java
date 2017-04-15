@@ -41,7 +41,7 @@ public abstract class Algorithm {
 
 	/**
 	 *  Gets the solution to the solver
-	 *  @return An iterable<Action> with the solution to the puzzle
+	 *  @return An iterable<Action> with the solution to the parking lot configuration
 	 */
     protected abstract Iterable<Action> solution();
 }

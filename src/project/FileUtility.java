@@ -12,8 +12,8 @@ public class FileUtility {
 	private String name;
 	
 	/**
-	 * Creates a new BoardFile, that saves a .puzzle File.
-	 * @param f	.puzzle File
+	 * Creates a new BoardFile, that saves a .parking File.
+	 * @param f	.parking File
 	 */
 	public FileUtility(File f) {
 		file = f;

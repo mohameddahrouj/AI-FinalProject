@@ -18,7 +18,7 @@ public class ConsoleRunner{
 	 * Creates right side bar
 	 */
 	public ConsoleRunner() {
-		FileUtility bf = new FileUtility(new File("puzzles/Advanced-02.puzzle"));
+		FileUtility bf = new FileUtility(new File("parkingLots/Advanced-02.parking"));
 		ComboBoxListener(bf);
 		algo = AlgorithmType.AStar;
 		SolveButtonListener(bf, algo);

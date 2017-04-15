@@ -98,7 +98,7 @@ public class AStarAlgorithm extends Algorithm{
 	
 	public static void main(String[] args) {
 		 // create initial board from file
-		File file = new File("puzzles/Easy-02.puzzle");
+		File file = new File("parkingLots/Easy-02.parking");
 		
 		Scanner in = null;
 		try {
