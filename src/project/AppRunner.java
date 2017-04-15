@@ -10,7 +10,7 @@ public class AppRunner extends JFrame {
 	//Runner class
 	public AppRunner() {
 		//Initialize frame
-		Shared.appRunner = this;
+		AppComponents.appRunner = this;
 		setTitle("COMP 4106- Parking Optimization");
 		//Set the size of the frame
 		setSize(new Dimension(1000, 720));
@@ -21,9 +21,9 @@ public class AppRunner extends JFrame {
 		
 		//Initialize board panel
 		BoardPanel board = new BoardPanel();
-		Shared.board = board;
+		AppComponents.board = board;
 		//Initialize control panel
-		RightPanel rightSidebar = new RightPanel();
+		ControlPanel rightSidebar = new ControlPanel();
 
 		getContentPane().add(rightSidebar, BorderLayout.EAST);
 		getContentPane().add(board, BorderLayout.CENTER);

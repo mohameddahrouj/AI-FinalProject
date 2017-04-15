@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class Block extends JPanel {
+public class Vehicle extends JPanel {
 
 	private int x; 
 	private int y;
@@ -25,7 +25,7 @@ public class Block extends JPanel {
 	 * @param orientation The orientation of the block (Horizontal or Vertical).
 	 * @param c	The character associated to this block.
 	 */
-	public Block(int x, int y, int length, boolean orientation, char c) {
+	public Vehicle(int x, int y, int length, boolean orientation, char c) {
 		this.x = x;
 		this.y = y;
 		this.orientation = orientation;

@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class MinPriorityQ<Key> implements Iterable<Key> {
+public class MinPriorityQueue<Key> implements Iterable<Key> {
     private Key[] pq;
     private int N;
     private Comparator<Key> comparator;
@@ -13,7 +13,7 @@ public class MinPriorityQ<Key> implements Iterable<Key> {
      * Create an empty priority queue with the given initial capacity.
      */
     @SuppressWarnings("unchecked")
-	public MinPriorityQ(int initCapacity) {
+	public MinPriorityQueue(int initCapacity) {
         pq = (Key[]) new Object[initCapacity + 1];
         N = 0;
     }
@@ -21,14 +21,14 @@ public class MinPriorityQ<Key> implements Iterable<Key> {
    /**
      * Create an empty priority queue.
      */
-    public MinPriorityQ() { this(1); }
+    public MinPriorityQueue() { this(1); }
 
    /**
      * Create an empty priority queue with the given initial capacity,
      * using the given comparator.
      */
     @SuppressWarnings("unchecked")
-	public MinPriorityQ(int initCapacity, Comparator<Key> comparator) {
+	public MinPriorityQueue(int initCapacity, Comparator<Key> comparator) {
         this.comparator = comparator;
         pq = (Key[]) new Object[initCapacity + 1];
         N = 0;
@@ -37,14 +37,14 @@ public class MinPriorityQ<Key> implements Iterable<Key> {
    /**
      * Create an empty priority queue using the given comparator.
      */
-    public MinPriorityQ(Comparator<Key> comparator) { this(1, comparator); }
+    public MinPriorityQueue(Comparator<Key> comparator) { this(1, comparator); }
 
    /**
      * Create a priority queue with the given items.
      * Takes time proportional to the number of items using sink-based heap construction.
      */
     @SuppressWarnings("unchecked")
-	public MinPriorityQ(Key[] keys) {
+	public MinPriorityQueue(Key[] keys) {
         N = keys.length;
         pq = (Key[]) new Object[keys.length + 1];
         for (int i = 0; i < N; i++)
@@ -170,13 +170,13 @@ public class MinPriorityQ<Key> implements Iterable<Key> {
 
     private class HeapIterator implements Iterator<Key> {
         // create a new pq
-        private MinPriorityQ<Key> copy;
+        private MinPriorityQueue<Key> copy;
 
         // add all items to copy of heap
         // takes linear time since already in heap order so no keys move
         public HeapIterator() {
-            if (comparator == null) copy = new MinPriorityQ<Key>(size());
-            else                    copy = new MinPriorityQ<Key>(size(), comparator);
+            if (comparator == null) copy = new MinPriorityQueue<Key>(size());
+            else                    copy = new MinPriorityQueue<Key>(size(), comparator);
             for (int i = 1; i <= N; i++)
                 copy.insert(pq[i]);
         }

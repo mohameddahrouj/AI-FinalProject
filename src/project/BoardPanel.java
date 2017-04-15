@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel {
 	
-	public Block[] blocks;
+	public Vehicle[] vehicles;
 	
 	// Board Panel constructor
 	public BoardPanel() {
@@ -22,7 +22,7 @@ public class BoardPanel extends JPanel {
 		setLayout(null);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));
 		setBackground(new Color(222, 184, 135));
-		blocks = null;
+		vehicles = null;
 	}
 	
 	/**
@@ -30,15 +30,15 @@ public class BoardPanel extends JPanel {
 	 * @param f	The BoardFile to load
 	 * @throws FileNotFoundException File doesn't exist
 	 */
-	public void load(BoardFile f) throws FileNotFoundException {
-		if (blocks != null){
-			for (Block b : blocks){
+	public void load(FileUtility f) throws FileNotFoundException {
+		if (vehicles != null){
+			for (Vehicle b : vehicles){
 				b.setVisible(false);
 			}
 		}
 		Scanner in = new Scanner(f.file());
 		int n = in.nextInt();	//ASCII Indexer (+2)
-		blocks = new Block[n];
+		vehicles = new Vehicle[n];
 		String text = "";
 		while (in.hasNextLine()){
 			text += in.nextLine().replace(" ", "");
@@ -48,7 +48,7 @@ public class BoardPanel extends JPanel {
 		for (char c = 'a'; c < 'a' + n - 1; c++){
 			addBlock(c, text, index++);	
 		}
-		blocks[0].setColor(Color.RED);
+		vehicles[0].setColor(Color.RED);
 		in.close();
 	}
 	
@@ -64,11 +64,11 @@ public class BoardPanel extends JPanel {
 		while ((i = text.indexOf(c, i+1)) != -1){
 			indexes.add(i);	
 		}
-		boolean orientation = (indexes.get(1) == indexes.get(0) + 1)? Block.HORIZONTAL : Block.VERTICAL;
+		boolean orientation = (indexes.get(1) == indexes.get(0) + 1)? Vehicle.HORIZONTAL : Vehicle.VERTICAL;
 		int x = 100 * (indexes.get(0) % 6) + 15 + 1;
 		int y = 100 * (indexes.get(0) / 6) + 15 + 1;
-		blocks[index] = new Block(x, y, indexes.size(),orientation, c);
-		this.add(blocks[index]);
+		vehicles[index] = new Vehicle(x, y, indexes.size(),orientation, c);
+		this.add(vehicles[index]);
 	}
 	
 	public void paintComponent(Graphics g) {

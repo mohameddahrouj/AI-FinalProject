@@ -17,18 +17,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import algorithms.AStarSolver;
-import algorithms.BFSSolver;
+import algorithms.AStarAlgorithm;
+import algorithms.BFSAlgorithm;
 import algorithms.Scheduler;
-import algorithms.SimulatedAnnealingSolver;
+import algorithms.SimulatedAnnealingAlgorithm;
 
 /**
  * Control Panel - RHS.
  */
 @SuppressWarnings("serial")
-public class RightPanel extends JPanel {
+public class ControlPanel extends JPanel {
 
-	private JComboBox<BoardFile> cbPuzzles;
+	private JComboBox<FileUtility> cbPuzzles;
 	private JButton btnSolve;
 	private JButton btnShow;
 	private JRadioButton rbAStar;
@@ -42,12 +42,12 @@ public class RightPanel extends JPanel {
 	private JLabel lbAnalytics;
 	
 	public static boolean solving = false;
-	private Solver algorithm;
+	private Algorithm algorithm;
 	
 	/**
 	 * Creates right side bar
 	 */
-	public RightPanel() {
+	public ControlPanel() {
 		setPreferredSize(new Dimension(330,630));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -154,7 +154,7 @@ public class RightPanel extends JPanel {
 		for (File file : puzzlesDir.listFiles()) {
 			String fileName = file.getName();
 			if (Pattern.matches(".*(\\.puzzle)$", fileName))
-				cbPuzzles.addItem(new BoardFile(file));
+				cbPuzzles.addItem(new FileUtility(file));
 		}
 	}
 
@@ -162,7 +162,7 @@ public class RightPanel extends JPanel {
 	private class ComboBoxListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				Shared.board.load((BoardFile)cbPuzzles.getSelectedItem());
+				AppComponents.board.load((FileUtility)cbPuzzles.getSelectedItem());
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
@@ -180,7 +180,7 @@ public class RightPanel extends JPanel {
 	private class ShowButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				Shared.board.load((BoardFile)cbPuzzles.getSelectedItem());
+				AppComponents.board.load((FileUtility)cbPuzzles.getSelectedItem());
 				new ShowThread().start();
 			} catch (FileNotFoundException e1) {}
 		}
@@ -196,7 +196,7 @@ public class RightPanel extends JPanel {
 			rbBFS.setEnabled(false);
 			rbSearchAnnealing.setEnabled(false);
 			
-			BoardFile bFile= (BoardFile)cbPuzzles.getSelectedItem();
+			FileUtility bFile= (FileUtility)cbPuzzles.getSelectedItem();
 			Scanner in = null;
 			try {
 				in = new Scanner(bFile.file());
@@ -211,11 +211,11 @@ public class RightPanel extends JPanel {
 			Board initial = new Board(blocks);
 			
 			if (rbAStar.isSelected())
-				algorithm = new AStarSolver(initial);
+				algorithm = new AStarAlgorithm(initial);
 			else if (rbBFS.isSelected())
-				algorithm = new BFSSolver(initial);
+				algorithm = new BFSAlgorithm(initial);
 			else if (rbSearchAnnealing.isSelected())
-				algorithm = new SimulatedAnnealingSolver(initial, new Scheduler(20, 0.00045, 1000000));
+				algorithm = new SimulatedAnnealingAlgorithm(initial, new Scheduler(20, 0.00005, 1000000));
 			else {
 				JOptionPane.showMessageDialog(null, "Please select a search algorithm!", "Warning", JOptionPane.WARNING_MESSAGE);
 				solving = false;
@@ -257,10 +257,10 @@ public class RightPanel extends JPanel {
 			if (algorithm.isSolvable()){
 				for (Action a : algorithm.solution()) {
 					if (a.getBlock() == 'X'){
-						Shared.board.blocks[0].move(100 * a.getMoves());
+						AppComponents.board.vehicles[0].move(100 * a.getMoves());
 					}
 					else if (a.getBlock() != '?'){
-						Shared.board.blocks[a.getBlock() - 96].move(100 * a.getMoves());
+						AppComponents.board.vehicles[a.getBlock() - 96].move(100 * a.getMoves());
 					}
 					//Prints the board
 					System.out.println("Step: " + stepCount);
@@ -281,7 +281,7 @@ public class RightPanel extends JPanel {
 			rbBFS.setEnabled(true);
 			rbSearchAnnealing.setEnabled(true);
 			
-			Shared.board.blocks[0].setBackground(Color.GREEN);
+			AppComponents.board.vehicles[0].setBackground(Color.GREEN);
 		}
 	}
 }

@@ -5,7 +5,7 @@ package project;
  * @author Mohamed Dahrouj
  *
  */
-public class Shared {
+public class AppComponents {
 	public static BoardPanel board;
 	public static AppRunner appRunner;
 }

@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import datastructures.MinPriorityQ;
+import datastructures.MinPriorityQueue;
 import datastructures.Stack;
 import project.Action;
 import project.Board;
-import project.Solver;
+import project.Algorithm;
 
-public class SimulatedAnnealingSolver extends Solver{
+public class SimulatedAnnealingAlgorithm extends Algorithm{
 	private class SearchNode implements Comparable<SearchNode> {
     	private Board board;
     	private int moves;
@@ -88,7 +88,7 @@ public class SimulatedAnnealingSolver extends Solver{
 	 *  Find the solution of the initial board using the Simulated Annealing algorithm.
 	 * @param initial The Board to be solved
 	 */
-	public SimulatedAnnealingSolver(Board initial, Scheduler scheduler) {
+	public SimulatedAnnealingAlgorithm(Board initial, Scheduler scheduler) {
 		time = System.currentTimeMillis();
 			
 		clearInstrumentation();
@@ -102,7 +102,7 @@ public class SimulatedAnnealingSolver extends Solver{
 		// for t = 1 to INFINITY do
 		int timeStep = 0;
 		
-		MinPriorityQ<SearchNode> pq = new MinPriorityQ<SearchNode>();
+		MinPriorityQueue<SearchNode> pq = new MinPriorityQueue<SearchNode>();
 		pq.insert(new SearchNode(initial, 0, null));
 		
 		while (!pq.isEmpty()) {
@@ -209,7 +209,7 @@ public class SimulatedAnnealingSolver extends Solver{
                 blocks[i][j] = in.next().charAt(0);
         Board initial = new Board(blocks);
         Scheduler s = new Scheduler(20, 0.0000045, 100000000);
-        SimulatedAnnealingSolver solver = new SimulatedAnnealingSolver(initial, s);      
+        SimulatedAnnealingAlgorithm solver = new SimulatedAnnealingAlgorithm(initial, s);      
         System.out.println("Minimum number of moves = " + solver.moves());
         for (Action a: solver.solution())
         	System.out.println(a);

@@ -4,13 +4,13 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import datastructures.MinPriorityQ;
+import datastructures.MinPriorityQueue;
 import datastructures.Stack;
 import project.Action;
 import project.Board;
-import project.Solver;
+import project.Algorithm;
 
-public class AStarSolver extends Solver{
+public class AStarAlgorithm extends Algorithm{
 	private class SearchNode implements Comparable<SearchNode> {
     	private Board board;
     	private int moves;
@@ -35,8 +35,8 @@ public class AStarSolver extends Solver{
 	 *  Find the solution of the initial board using the A* algorithm.	 *
 	 * @param initial The Board to be solved
 	 */
-	public AStarSolver(Board initial) {
-    	MinPriorityQ<SearchNode> pq = new MinPriorityQ<SearchNode>();
+	public AStarAlgorithm(Board initial) {
+    	MinPriorityQueue<SearchNode> pq = new MinPriorityQueue<SearchNode>();
     	ArrayList<Board> explored = new ArrayList<Board>();
     	
     	time = System.currentTimeMillis();
@@ -119,7 +119,7 @@ public class AStarSolver extends Solver{
         Board initial = new Board(blocks);
         
         // solve the puzzle
-        AStarSolver solver = new AStarSolver(initial);
+        AStarAlgorithm solver = new AStarAlgorithm(initial);
 
         // print solution to standard output       
         System.out.println("Minimum number of moves = " + solver.moves());

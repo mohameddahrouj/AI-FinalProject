@@ -8,9 +8,9 @@ import datastructures.Queue;
 import datastructures.Stack;
 import project.Action;
 import project.Board;
-import project.Solver;
+import project.Algorithm;
 
-public class BFSSolver extends Solver{
+public class BFSAlgorithm extends Algorithm{
 	private class SearchNode{
 	    private Board board;
 	    private int moves;
@@ -27,7 +27,7 @@ public class BFSSolver extends Solver{
 	 *  Find the solution of the initial board using the BFS algorithm.
 	 * @param initial The Board to be solved
 	 */
-	public BFSSolver(Board initial) {
+	public BFSAlgorithm(Board initial) {
     	Queue<SearchNode> queue = new Queue<SearchNode>();
     	ArrayList<Board> explored = new ArrayList<Board>();
 
@@ -112,7 +112,7 @@ public class BFSSolver extends Solver{
         Board initial = new Board(blocks);
         
         // solve the puzzle
-        BFSSolver solver = new BFSSolver(initial);
+        BFSAlgorithm solver = new BFSAlgorithm(initial);
 
         // print solution to standard output
         System.out.println("Minimum number of moves = " + solver.moves());

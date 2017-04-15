@@ -6,7 +6,7 @@ import java.io.File;
  * @author Mohamed Dahrouj
  *
  */
-public class BoardFile {
+public class FileUtility {
 	
 	private File file;
 	private String name;
@@ -15,7 +15,7 @@ public class BoardFile {
 	 * Creates a new BoardFile, that saves a .puzzle File.
 	 * @param f	.puzzle File
 	 */
-	public BoardFile(File f) {
+	public FileUtility(File f) {
 		file = f;
 		String[] nameParts = f.getName().split("-");
 		name = nameParts[0] + " " + Integer.parseInt(nameParts[1].substring(0,2));
