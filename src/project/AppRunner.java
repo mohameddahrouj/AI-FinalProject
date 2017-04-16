@@ -3,32 +3,31 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
-
+/**
+ * Runner class
+ * Contains main for executing application
+ * @author Mohamed Dahrouj
+ *
+ */
 @SuppressWarnings("serial")
 public class AppRunner extends JFrame {
 	
-	//Runner class
 	public AppRunner() {
-		//Initialize frame
 		AppComponents.appRunner = this;
 		setTitle("COMP 4106- Parking Optimization");
-		//Set the size of the frame
 		setSize(new Dimension(1000, 720));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(true);
 		setLayout(new BorderLayout());
 		
-		//Initialize board panel
-		BoardPanel board = new BoardPanel();
+		ParkingPanel board = new ParkingPanel();
 		AppComponents.board = board;
-		//Initialize control panel
-		ControlPanel rightSidebar = new ControlPanel();
+		ControlPanel controlSidebar = new ControlPanel();
 
-		getContentPane().add(rightSidebar, BorderLayout.EAST);
+		getContentPane().add(controlSidebar, BorderLayout.EAST);
 		getContentPane().add(board, BorderLayout.CENTER);
 		setVisible(true);
-		//pack();
 	}
 	
 	public static void main(String[] args) throws InterruptedException {

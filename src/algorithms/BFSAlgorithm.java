@@ -7,17 +7,17 @@ import java.util.Scanner;
 import datastructures.Queue;
 import datastructures.Stack;
 import project.Move;
-import project.Board;
+import project.ParkingLot;
 import project.Algorithm;
 
 public class BFSAlgorithm extends Algorithm{
 	private class SearchNode{
-	    private Board board;
+	    private ParkingLot parkingLot;
 	    private int moves;
 	   	private SearchNode previous;
 	    
-	    public SearchNode(Board b, int moves, SearchNode previous) {
-	    	this.board = b;
+	    public SearchNode(ParkingLot b, int moves, SearchNode previous) {
+	    	this.parkingLot = b;
 	    	this.moves = moves;
 	    	this.previous = previous;
 	   	}
@@ -27,9 +27,9 @@ public class BFSAlgorithm extends Algorithm{
 	 *  Find the solution of the initial board using the BFS algorithm.
 	 * @param initial The Board to be solved
 	 */
-	public BFSAlgorithm(Board initial) {
+	public BFSAlgorithm(ParkingLot initial) {
     	Queue<SearchNode> queue = new Queue<SearchNode>();
-    	ArrayList<Board> explored = new ArrayList<Board>();
+    	ArrayList<ParkingLot> explored = new ArrayList<ParkingLot>();
 
     	time = System.currentTimeMillis();
     	
@@ -37,12 +37,12 @@ public class BFSAlgorithm extends Algorithm{
     	SearchNode sn = null;
     	while (!queue.isEmpty()) {
     		sn = queue.dequeue();
-    		if (explored.contains(sn.board)) continue;
-    		if (sn.board.isGoal()) break;
-			explored.add(sn.board);
+    		if (explored.contains(sn.parkingLot)) continue;
+    		if (sn.parkingLot.isGoal()) break;
+			explored.add(sn.parkingLot);
 
 			expNodes++;
-    		for (Board b: sn.board.neighbors()) {
+    		for (ParkingLot b: sn.parkingLot.productionSystem()) {
     			if (!explored.contains(b))
     				queue.enqueue(new SearchNode(b, sn.moves + 1, sn));
     		}
@@ -60,7 +60,7 @@ public class BFSAlgorithm extends Algorithm{
     	movements = new Stack<Move>();
     	
     	while (prev != null) {
-    		movements.push(prev.board.getAction());
+    		movements.push(prev.parkingLot.getMove());
     		moves++;
     		prev = prev.previous;
     	}
@@ -109,7 +109,7 @@ public class BFSAlgorithm extends Algorithm{
                 blocks[i][j] = in.next().charAt(0);
         
 
-        Board initial = new Board(blocks);
+        ParkingLot initial = new ParkingLot(blocks);
         
         // solve the puzzle
         BFSAlgorithm solver = new BFSAlgorithm(initial);

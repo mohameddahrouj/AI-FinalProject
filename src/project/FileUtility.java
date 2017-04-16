@@ -12,7 +12,7 @@ public class FileUtility {
 	private String name;
 	
 	/**
-	 * Creates a new BoardFile, that saves a .parking File.
+	 * Creates a new Parking Lot File, saves a .parking File.
 	 * @param f	.parking File
 	 */
 	public FileUtility(File f) {
@@ -27,7 +27,6 @@ public class FileUtility {
 	public File file() {
 		return file;
 	}
-	
 	
 	// Name of file
 	public String toString() {

@@ -15,7 +15,7 @@ public class ConsoleRunner{
 	private AlgorithmType algo;
 	
 	/**
-	 * Creates right side bar
+	 * Creates control side bar
 	 */
 	public ConsoleRunner() {
 		FileUtility bf = new FileUtility(new File("parkingLots/Advanced-02.parking"));
@@ -31,7 +31,6 @@ public class ConsoleRunner{
 			System.out.print("Please specify the configuration (rows,cols): ");
 			//Scanner scanner = new Scanner(System.in);
 			//String boardSize = scanner.nextLine();
-			
 			//String[] sizeArray = boardSize.split(",");
 			//scanner.close();
 	}
@@ -82,7 +81,7 @@ public class ConsoleRunner{
 				for (int j = 0; j < 6; j++)
 					blocks[i][j] = in.next().charAt(0);
 
-			Board initial = new Board(blocks);
+			ParkingLot initial = new ParkingLot(blocks);
 			
 			if (algo.equals(AlgorithmType.AStar))
 				algorithm = new AStarAlgorithm(initial);

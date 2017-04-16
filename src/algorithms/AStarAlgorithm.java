@@ -7,18 +7,18 @@ import java.util.Scanner;
 import datastructures.MinPriorityQueue;
 import datastructures.Stack;
 import project.Move;
-import project.Board;
+import project.ParkingLot;
 import project.Algorithm;
 
 public class AStarAlgorithm extends Algorithm{
 	private class SearchNode implements Comparable<SearchNode> {
-    	private Board board;
+    	private ParkingLot parkingLot;
     	private int moves;
     	private SearchNode previous;
     	private int priority;
     	
-    	public SearchNode(Board b, int moves, SearchNode previous) {
-    		this.board = b;
+    	public SearchNode(ParkingLot b, int moves, SearchNode previous) {
+    		this.parkingLot = b;
     		this.moves = moves;
     		this.previous = previous;
     		this.priority = b.priority() + this.moves;
@@ -35,9 +35,9 @@ public class AStarAlgorithm extends Algorithm{
 	 *  Find the solution of the initial board using the A* algorithm.	 *
 	 * @param initial The Board to be solved
 	 */
-	public AStarAlgorithm(Board initial) {
+	public AStarAlgorithm(ParkingLot initial) {
     	MinPriorityQueue<SearchNode> pq = new MinPriorityQueue<SearchNode>();
-    	ArrayList<Board> explored = new ArrayList<Board>();
+    	ArrayList<ParkingLot> explored = new ArrayList<ParkingLot>();
     	
     	time = System.currentTimeMillis();
     	
@@ -46,11 +46,11 @@ public class AStarAlgorithm extends Algorithm{
     	
     	while (!pq.isEmpty()) {
     		sn = pq.delMin();  
-    		if (explored.contains(sn.board)) continue;
-    		if (sn.board.isGoal()) break;
-			explored.add(sn.board);
+    		if (explored.contains(sn.parkingLot)) continue;
+    		if (sn.parkingLot.isGoal()) break;
+			explored.add(sn.parkingLot);
 			expNodes++;
-    		for (Board b: sn.board.neighbors()) {
+    		for (ParkingLot b: sn.parkingLot.productionSystem()) {
     			if (!explored.contains(b)) {
     				pq.insert(new SearchNode(b, sn.moves + 1, sn));
     			}
@@ -68,7 +68,7 @@ public class AStarAlgorithm extends Algorithm{
     	movements = new Stack<Move>();
     		
     	while (prev != null) {
-    		movements.push(prev.board.getAction());
+    		movements.push(prev.parkingLot.getMove());
     		moves++;
     		prev = prev.previous;
     	}
@@ -116,7 +116,7 @@ public class AStarAlgorithm extends Algorithm{
                 blocks[i][j] = in.next().charAt(0);
         
 
-        Board initial = new Board(blocks);
+        ParkingLot initial = new ParkingLot(blocks);
         
         // solve the puzzle
         AStarAlgorithm solver = new AStarAlgorithm(initial);

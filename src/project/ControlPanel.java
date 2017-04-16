@@ -55,9 +55,6 @@ public class ControlPanel extends JPanel {
 		loadParkingLots();
 	}
 
-	/**
-	 * Initializes combobox, radiobuttons and button
-	 */
 	private void initializeComponents() {
 		
 		lbParkingConfig = new JLabel("Parking Configuration:");
@@ -208,7 +205,7 @@ public class ControlPanel extends JPanel {
 				for (int j = 0; j < 6; j++)
 					blocks[i][j] = in.next().charAt(0);
 
-			Board initial = new Board(blocks);
+			ParkingLot initial = new ParkingLot(blocks);
 			
 			if (rbAStar.isSelected())
 				algorithm = new AStarAlgorithm(initial);

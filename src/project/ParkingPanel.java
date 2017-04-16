@@ -9,15 +9,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 /**
- * Panel where the board and cars will be drawn
+ * Panel where the board and vehicles will be drawn -LHS
  */
 @SuppressWarnings("serial")
-public class BoardPanel extends JPanel {
+public class ParkingPanel extends JPanel {
 	
 	public Vehicle[] vehicles;
 	
-	// Board Panel constructor
-	public BoardPanel() {
+	public ParkingPanel() {
 		setSize(700, 650);
 		setLayout(null);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));
@@ -53,9 +52,9 @@ public class BoardPanel extends JPanel {
 	}
 	
 	/**
-	 * Creates a Block, saves it and draws it.
-	 * @param c	Character that represents the block to be added.
-	 * @param text The content of the file that is being loaded.
+	 * Creates a Vehicle, saves it and draws it.
+	 * @param c	Character that represents the vehicle to be added.
+	 * @param text The ID of the file that is being loaded.
 	 * @param index	The index of the block to be added.
 	 */
 	private void addBlock(char c, String text, int index) {

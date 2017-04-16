@@ -1,7 +1,6 @@
 package project;
 import datastructures.Stack;
 
-
 /**
  * Abstract class for search algorithms
  * Each class has its own Node class as opposed to sharing one
@@ -28,20 +27,20 @@ public abstract class Algorithm {
 	protected abstract int moves();
 	
 	/**
-	 *  Get the amount of expanded nodes
-	 *  @return The amount of expanded nodes
+	 *  Get the number of expanded nodes
+	 *  @return The number of expanded nodes
 	 */
 	protected abstract int expandedNodes();
 	
 	/**
-	 *  Get the time took by the algorithm to solve the puzzle
-	 *  @return The running time of the Solver
+	 *  Get the time taken by the algorithm to solve the parking lot
+	 *  @return The running time of the algorithm
 	 */	
     protected abstract long getRunningTime();
 
 	/**
 	 *  Gets the solution to the solver
-	 *  @return An iterable<Action> with the solution to the parking lot configuration
+	 *  @return Solution to the specified parking lot configuration
 	 */
     protected abstract Iterable<Move> solution();
 }

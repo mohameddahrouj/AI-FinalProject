@@ -19,11 +19,11 @@ public class Vehicle extends JPanel {
 
 	/**
 	 * Creates a GUI car (block)
-	 * @param x	The x coordinate where the block is.
-	 * @param y	The y coordinate where the block is.
-	 * @param length The size of the block (2, 3 mainly).
-	 * @param orientation The orientation of the block (Horizontal or Vertical).
-	 * @param c	The character associated to this block.
+	 * @param x	The x coordinate where the vehicle is.
+	 * @param y	The y coordinate where the vehicle is.
+	 * @param length The size of the vehicle (2, 3 mainly).
+	 * @param orientation The orientation of the vehicle (Horizontal or Vertical).
+	 * @param c	The character associated to this vehicle.
 	 */
 	public Vehicle(int x, int y, int length, boolean orientation, char c) {
 		this.x = x;

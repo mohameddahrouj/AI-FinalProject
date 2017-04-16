@@ -8,18 +8,18 @@ import java.util.Scanner;
 import datastructures.MinPriorityQueue;
 import datastructures.Stack;
 import project.Move;
-import project.Board;
+import project.ParkingLot;
 import project.Algorithm;
 
 public class SimulatedAnnealingAlgorithm extends Algorithm{
 	private class SearchNode implements Comparable<SearchNode> {
-    	private Board board;
+    	private ParkingLot parkingLot;
     	private int moves;
     	private SearchNode previous;
     	private int priority;
     	
-    	public SearchNode(Board b, int moves, SearchNode previous) {
-    		this.board = b;
+    	public SearchNode(ParkingLot b, int moves, SearchNode previous) {
+    		this.parkingLot = b;
     		this.moves = moves;
     		this.previous = previous;
     		this.priority = b.priority() + this.moves;
@@ -38,7 +38,7 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 	public static final String METRIC_NODE_VALUE = "nodeValue";
 	private Metrics metrics = new Metrics();
 	
-	public static Board getRandomNeighbour(ArrayList<Board> list) {
+	public static ParkingLot getRandomNeighbour(ArrayList<ParkingLot> list) {
 		Random r = new Random();
 		return list.get(r.nextInt(list.size()));
 	}
@@ -67,7 +67,7 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 		// assumption greater heuristic value =>
 		// HIGHER on hill; 0 == goal state;
 		// SA deals with gradient DESCENT
-		return -1 * n.board.getHeuristic(3);
+		return -1 * n.parkingLot.getHeuristic(3);
 	}
 	
 	/**
@@ -88,7 +88,7 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 	 *  Find the solution of the initial board using the Simulated Annealing algorithm.
 	 * @param initial The Board to be solved
 	 */
-	public SimulatedAnnealingAlgorithm(Board initial, Scheduler scheduler) {
+	public SimulatedAnnealingAlgorithm(ParkingLot initial, Scheduler scheduler) {
 		time = System.currentTimeMillis();
 			
 		clearInstrumentation();
@@ -97,7 +97,7 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 		// current <- MAKE-NODE(problem.INITIAL-STATE)
 		SearchNode current = null;
 		SearchNode next = null;
-		ArrayList<Board> visitedBoards = new ArrayList<>();
+		ArrayList<ParkingLot> visitedBoards = new ArrayList<>();
 		//visitedBoards.add(current.board);
 		// for t = 1 to INFINITY do
 		int timeStep = 0;
@@ -107,16 +107,16 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 		
 		while (!pq.isEmpty()) {
 			current = pq.delMin(); 
-    		if (visitedBoards.contains(current.board)) continue;
-    		if (current.board.isGoal()) break;
-    		visitedBoards.add(current.board);
+    		if (visitedBoards.contains(current.parkingLot)) continue;
+    		if (current.parkingLot.isGoal()) break;
+    		visitedBoards.add(current.parkingLot);
 			//expNodes++;
 			// temperature <- schedule(t)
 			double temperature = scheduler.getTemp(timeStep);
 			timeStep++;
 			// if temperature = 0 then return current
 			if (temperature == 0.0) {
-				if (current.board.isGoal()){
+				if (current.parkingLot.isGoal()){
 					solvable = true;
 					break;
 				}
@@ -128,7 +128,7 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 			expNodes++;
 			//ArrayList<Board> children = current.board.neighbors();
 			//if (children.size() > 0) {
-				for(Board b: current.board.neighbors()){
+				for(ParkingLot b: current.parkingLot.productionSystem()){
 					//expNodes++;
 					// next <- a randomly selected successor of current
 					//Board randBoard = getRandomNeighbour(children);
@@ -164,7 +164,7 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
     	movements = new Stack<Move>();
     		
     	while (prev != null) {
-    		movements.push(prev.board.getAction());
+    		movements.push(prev.parkingLot.getMove());
     		moves++;
     		prev = prev.previous;
     	}
@@ -207,7 +207,7 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
                 blocks[i][j] = in.next().charAt(0);
-        Board initial = new Board(blocks);
+        ParkingLot initial = new ParkingLot(blocks);
         Scheduler s = new Scheduler(20, 0.0000045, 100000000);
         SimulatedAnnealingAlgorithm solver = new SimulatedAnnealingAlgorithm(initial, s);      
         System.out.println("Minimum number of moves = " + solver.moves());

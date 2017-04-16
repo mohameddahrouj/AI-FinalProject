@@ -2,7 +2,6 @@ package algorithms;
 
 public class Scheduler {
 		private final int k, limit;
-
 		private final double lam;
 
 		public Scheduler(int k, double lam, int limit) {

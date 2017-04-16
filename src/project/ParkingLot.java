@@ -2,31 +2,30 @@ package project;
 import java.util.ArrayList;
 
 /**
- * Board representing the parking lot
+ * State representing the parking lot
  * State representation: char 2D array
  * @author Mohamed Dahrouj
- *
  */
-public class Board {
+public class ParkingLot {
 
-    char[][] blocks;
-    private int N; //Length of matrix
+    char[][] vehicles;
+    private int N; 			//Length of matrix
     private int priority = -1;
-    char blockMoved = '?'; //Last block moved
-    int spacesMoved = 0; //The tiles the block was moved
+    char blockMoved = '?'; 	//Last block moved
+    int spacesMoved = 0; 	//The number of tiles the block was moved
     
-    public Board(char[][] blocks) {
-        // Generates a board from a NxN array of blocks
-        N = blocks.length;
-        this.blocks = new char[N][N];
+    public ParkingLot(char[][] vehicles) {
+        // Generates a board from a NxN array of vehicles
+        N = vehicles.length;
+        this.vehicles = new char[N][N];
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
-    		    this.blocks[i][j] = blocks[i][j];
+    		    this.vehicles[i][j] = vehicles[i][j];
     }
 
-    public Board(char[][] blocks, char block, int moves) {
-    	// Generates a board from a NxN array of blocks
-        this(blocks);
+    public ParkingLot(char[][] vehicles, char block, int moves) {
+    	// Generates a board from a NxN array of vehicles
+        this(vehicles);
         this.blockMoved = block;
         this.spacesMoved = moves;
     }
@@ -51,7 +50,7 @@ public class Board {
         
         for (int j = 0; j < N; j++) {
         	//Value from current cell in blocks
-        	value = blocks[i][j];
+        	value = vehicles[i][j];
             
             if (value == '-') continue;		
             if (value == 'X') {
@@ -71,18 +70,18 @@ public class Board {
     	int i = N%2 == 0? N/2 - 1 : N/2;
     	
     	//Checks to see if block is in the goal position
-    	return blocks[i][N-1] == 'X';
+    	return vehicles[i][N-1] == 'X';
     }
     
     
     public boolean equals(Object o) {
     	//Validates board
-        if (!(o instanceof Board)) return false;
-        Board b = (Board) o;
+        if (!(o instanceof ParkingLot)) return false;
+        ParkingLot b = (ParkingLot) o;
         if (dimension() != b.dimension()) return false;
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
-                if (blocks[i][j] != b.blocks[i][j]) return false;
+                if (vehicles[i][j] != b.vehicles[i][j]) return false;
         return true;
     }
     
@@ -91,15 +90,15 @@ public class Board {
         char[][] copy = new char[N][N];
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
-                copy[i][j] = blocks[i][j];
+                copy[i][j] = vehicles[i][j];
 
         return copy;
     }
     
     //Generates the successors for the production system
-    public ArrayList<Board> neighbors() {
+    public ArrayList<ParkingLot> productionSystem() {
         // all children boards
-        ArrayList<Board> neighbors = new ArrayList<>();
+        ArrayList<ParkingLot> neighbors = new ArrayList<>();
 
         int tempi = 0, tempj = 0;
         char[][] tempBoard = cloneBoard();
@@ -118,7 +117,7 @@ public class Board {
 		                	    while (aux > 0 && tempBoard[aux-1][j] == value)
 		                		    aux--;
 		                	    swapAndStore(tempBoard, aux, ++tempi, j, j);
-		                	    Board b = new Board(tempBoard, value, tempi - i + 1);
+		                	    ParkingLot b = new ParkingLot(tempBoard, value, tempi - i + 1);
 		                        neighbors.add(b);
                 		    }
                 	    }   
@@ -136,7 +135,7 @@ public class Board {
 		                        while (aux > 0 && tempBoard[i][aux-1] == value)
 		                		    aux--;
 		                	    swapAndStore(tempBoard, i, i, aux, ++tempj);
-		                	    Board b = new Board(tempBoard, value, tempj - j + 1);
+		                	    ParkingLot b = new ParkingLot(tempBoard, value, tempj - j + 1);
 		                        neighbors.add(b);
                 		    }
                 	    }   
@@ -154,7 +153,7 @@ public class Board {
 		                	    while (aux < N - 1 && tempBoard[aux+1][j] == value)
 		                		    aux++;
 		                	    swapAndStore(tempBoard, aux, --tempi, j, j);
-		                	    Board b = new Board(tempBoard, value, tempi - i - 1);
+		                	    ParkingLot b = new ParkingLot(tempBoard, value, tempi - i - 1);
 		                        neighbors.add(b);
                 		    }
                 	    }   
@@ -171,7 +170,7 @@ public class Board {
 		                	    while (aux < N - 1 && tempBoard[i][aux+1] == value)
 		                		    aux++;
 		                	    swapAndStore(tempBoard, i, i, aux, --tempj);
-		                	    Board b = new Board(tempBoard, value, tempj -j - 1);
+		                	    ParkingLot b = new ParkingLot(tempBoard, value, tempj -j - 1);
 		                        neighbors.add(b);
                 		    }
                 	    }   
@@ -184,12 +183,19 @@ public class Board {
         return neighbors;
     }
     
+	//Swaps and stores two values in an array
+    private void swapAndStore(char[][] array, int row1, int row2, int col1, int col2) {
+        char temp = array[row1][col1];
+        array[row1][col1] = array[row2][col2];
+        array[row2][col2] = temp;
+    }
+    
     //String representation of the board
     public String toString() {
         String s = "Vehicle Moved: " + blockMoved + ", " + "Spaces Moved: " +spacesMoved + "\n";
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++)
-                s += blocks[i][j] + " ";
+                s += vehicles[i][j] + " ";
 
             s += "\n";
         }
@@ -197,7 +203,7 @@ public class Board {
         return s;
     }
     
-    public Move getAction() {
+    public Move getMove() {
     	return new Move(blockMoved, spacesMoved, this);
     }
     
@@ -212,8 +218,8 @@ public class Board {
     	return heuristic;
     }
     
+	//Modified Euclidean Distance
 	private int evaluateAStarHeuristic() {
-		//Euclidean Distance
 		return (int) (priority * 
 				Math.sqrt(
 					Math.abs(Math.pow(getBlockedCarColumn() - getBlockedCarRow(), 2))
@@ -223,15 +229,18 @@ public class Board {
 		
 	}
     
+	//Modified Manhattan Heuristic
     private int evaluateAnnealingHeuristic() {
-		//Manhattan Heuristic
-    	return priority * (Math.abs(getBlockedCarColumn() - getBlockedCarRow()) + Math.abs((N%2 == 0? N/2 - 1 : N/2) - (N-1)));
+    	return priority * 
+    			(Math.abs(getBlockedCarColumn() 
+    			- getBlockedCarRow())
+    			+ Math.abs((N%2 == 0? N/2 - 1 : N/2) - (N-1)));
 	}
 
 	private int getBlockedCarColumn() {
 		for (int i = 0; i < N; i++){
 			for (int j = 0; j < N; j++){
-				if(blocks[i][j] == 'X'){
+				if(vehicles[i][j] == 'X'){
             		return j;
             	}
 			}
@@ -250,13 +259,4 @@ public class Board {
 	private int getGoalColumn(){
 		return N-1;	
 	}
-	
-	
-
-	//Swaps and stores two values in an array
-    private void swapAndStore(char[][] array, int row1, int row2, int col1, int col2) {
-        char temp = array[row1][col1];
-        array[row1][col1] = array[row2][col2];
-        array[row2][col2] = temp;
-    }
 }
