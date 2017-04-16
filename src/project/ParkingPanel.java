@@ -20,7 +20,7 @@ public class ParkingPanel extends JPanel {
 		setSize(700, 650);
 		setLayout(null);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));
-		setBackground(new Color(222, 184, 135));
+		setBackground(new Color(203, 214, 207));
 		vehicles = null;
 	}
 	

@@ -25,7 +25,7 @@ public class AppRunner extends JFrame {
 		AppComponents.board = board;
 		ControlPanel controlSidebar = new ControlPanel();
 
-		getContentPane().add(controlSidebar, BorderLayout.EAST);
+		getContentPane().add(controlSidebar, BorderLayout.WEST);
 		getContentPane().add(board, BorderLayout.CENTER);
 		setVisible(true);
 	}
