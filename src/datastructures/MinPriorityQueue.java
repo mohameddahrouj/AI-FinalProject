@@ -10,7 +10,7 @@ public class MinPriorityQueue<Key> implements Iterable<Key> {
     private Comparator<Key> comparator;
 
    /**
-     * Create an empty priority queue with the given initial capacity.
+     * Create an empty priority queue with initial cap
      */
     @SuppressWarnings("unchecked")
 	public MinPriorityQueue(int initCapacity) {
@@ -19,13 +19,12 @@ public class MinPriorityQueue<Key> implements Iterable<Key> {
     }
 
    /**
-     * Create an empty priority queue.
+     * Create empty priority queue
      */
     public MinPriorityQueue() { this(1); }
 
    /**
-     * Create an empty priority queue with the given initial capacity,
-     * using the given comparator.
+    * Create an empty priority queue with initial cap and comparator
      */
     @SuppressWarnings("unchecked")
 	public MinPriorityQueue(int initCapacity, Comparator<Key> comparator) {
@@ -35,13 +34,14 @@ public class MinPriorityQueue<Key> implements Iterable<Key> {
     }
 
    /**
-     * Create an empty priority queue using the given comparator.
+     * Create an empty priority queue with comparator
      */
     public MinPriorityQueue(Comparator<Key> comparator) { this(1, comparator); }
 
    /**
-     * Create a priority queue with the given items.
-     * Takes time proportional to the number of items using sink-based heap construction.
+     * Create a priority queue with items.
+     * Sink-based heap model
+     * Based on PrincetonU implementation
      */
     @SuppressWarnings("unchecked")
 	public MinPriorityQueue(Key[] keys) {
@@ -54,32 +54,25 @@ public class MinPriorityQueue<Key> implements Iterable<Key> {
         assert isMinHeap();
     }
 
-   /**
-     * Is the priority queue empty?
-     */
     public boolean isEmpty() {
         return N == 0;
     }
-
-   /**
-     * Return the number of items on the priority queue.
-     */
+    
     public int size() {
         return N;
     }
-
+    
    /**
-     * Return the smallest key on the priority queue.
-     * @throws java.util.NoSuchElementException if priority queue is empty.
+     * Return the min key on the priority queue
      */
     public Key min() {
         if (isEmpty()) throw new NoSuchElementException("Priority queue underflow");
         return pq[1];
     }
 
-    // helper function to double the size of the heap array
+    //Double size of heap array
     @SuppressWarnings("unchecked")
-	private void resize(int capacity) {
+	private void augment(int capacity) {
         assert capacity > N;
         Key[] temp = (Key[]) new Object[capacity];
         for (int i = 1; i <= N; i++) temp[i] = pq[i];
@@ -87,29 +80,28 @@ public class MinPriorityQueue<Key> implements Iterable<Key> {
     }
 
    /**
-     * Add a new key to the priority queue.
+     * Add new key to priority queue.
      */
     public void insert(Key x) {
-        // double size of array if necessary
-        if (N == pq.length - 1) resize(2 * pq.length);
+        // augment array size
+        if (N == pq.length - 1) augment(2 * pq.length);
 
-        // add x, and percolate it up to maintain heap invariant
+        // add x, and move it up to maintain heap invariant
         pq[++N] = x;
         swim(N);
         assert isMinHeap();
     }
 
    /**
-     * Delete and return the smallest key on the priority queue.
-     * @throws java.util.NoSuchElementException if priority queue is empty.
+     * Delete and return the smallest key on the priority queue
      */
     public Key delMin() {
         if (isEmpty()) throw new NoSuchElementException("Priority queue underflow");
         swap(1, N);
         Key min = pq[N--];
         sink(1);
-        pq[N+1] = null;         // avoid loitering and help with garbage collection
-        if ((N > 0) && (N == (pq.length - 1) / 4)) resize(pq.length  / 2);
+        pq[N+1] = null;         // avoid loitering and help with GC
+        if ((N > 0) && (N == (pq.length - 1) / 4)) augment(pq.length  / 2);
         assert isMinHeap();
         return min;
     }
@@ -162,14 +154,12 @@ public class MinPriorityQueue<Key> implements Iterable<Key> {
     }
 
    /**
-     * Return an iterator that iterates over all of the keys on the priority queue
-     * in ascending order.
-     * The iterator doesn't implement remove() since it's optional.
+     * Return an iterator that iterates over all of the keys on the priority queue in ascending order.
      */
     public Iterator<Key> iterator() { return new HeapIterator(); }
 
     private class HeapIterator implements Iterator<Key> {
-        // create a new pq
+        // create new minPQ
         private MinPriorityQueue<Key> copy;
 
         // add all items to copy of heap
