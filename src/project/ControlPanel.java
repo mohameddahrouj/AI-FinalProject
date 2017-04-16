@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -40,6 +41,7 @@ public class ControlPanel extends JPanel {
 	private JLabel lbParkingConfig;
 	private JLabel lbAlgorithms;
 	private JLabel lbAnalytics;
+	private JLabel lbSteps;
 	
 	public static boolean solving = false;
 	private Algorithm algorithm;
@@ -80,6 +82,10 @@ public class ControlPanel extends JPanel {
 		lbExpNodes = new JLabel("Number of Expanded Nodes N/A");
 		lbTime = new JLabel("Running time: N/A");
 		
+        lbSteps = new JLabel("Step #: N/A");
+        lbSteps.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+		
 		lbParkingConfig.setBounds(50, 0, 200, 30);
 		cbParkingLots.setBounds(50, 30, 200, 30);
 		
@@ -95,6 +101,7 @@ public class ControlPanel extends JPanel {
 		lbMoves.setBounds(50, 230, 300, 20);
 		lbExpNodes.setBounds(50, 260, 300, 20);
 		lbTime.setBounds(50, 290, 290, 20);
+		lbSteps.setBounds(50, 600, 100, 20);
 		
 		cbParkingLots.setToolTipText("Choose a parking configuration to solve");
 		cbParkingLots.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -141,6 +148,7 @@ public class ControlPanel extends JPanel {
 		add(lbMoves);
 		add(lbExpNodes);
 		add(lbTime);
+		add(lbSteps);
 	}
 
 	/**
@@ -261,6 +269,7 @@ public class ControlPanel extends JPanel {
 					}
 					//Prints the board
 					System.out.println("Step: " + stepCount);
+					lbSteps.setText("Step #: " + stepCount);
 					System.out.println(a.getBoard());
 					stepCount++;
 				}
