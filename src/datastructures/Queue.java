@@ -4,36 +4,28 @@ import java.util.NoSuchElementException;
 
 public class Queue<Item> implements Iterable<Item> { 
 
-	private int N;          // size of the queue
-    private Node first;     // beginning of queue
-    private Node last;     //  end of queue
+	private int N;
+    private Node first;
+    private Node last;
 
-    // helper linked list class
+    /**
+     * Internal linked list class
+     */
     private class Node {
         private Item item;
         private Node next;
     }
     
-
-    /**
-      * Create an empty queue.
-      */
 	public Queue() {
 		first = null;
 		last = null;
 		N = 0;		
 	}	
 	
-	/**
-     * Is the queue empty?
-     */
 	public boolean isEmpty() {
 		return size() == 0;
 	}
 	
-	/**
-     * Return the number of items on the queue.
-     */
 	public int size() {
 		return N;
 	}
@@ -54,8 +46,7 @@ public class Queue<Item> implements Iterable<Item> {
 	}
 	
 	/**
-     * Delete and return the first item on the queue (FIFO order)
-     * @throws java.util.NoSuchElementException if queue is empty.
+     * Delete and return the first item on the queue (FIFO based)
      */
 	public Item dequeue() {
 		if (isEmpty()) throw new NoSuchElementException("Queue underflow");
@@ -67,10 +58,7 @@ public class Queue<Item> implements Iterable<Item> {
 	}
 	
 	/**
-     * Return an iterator that iterates over all of the items on the queue
-     * in FIFO order.
-     * <p>
-     * The iterator doesn't implement <tt>remove()</tt> since it's optional.
+     * Return an iterator that iterates over all of the items on the queue (FIFO based)
      */
 	public Iterator<Item> iterator() {
 		return new ListIterator();

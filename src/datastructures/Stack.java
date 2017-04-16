@@ -4,33 +4,26 @@ import java.util.NoSuchElementException;
 
 public class Stack<Item> implements Iterable<Item> { 
 
-	private int N;          // size of the stack
-    private Node first;     // beginning of stack
-
-    // helper linked list class
+	private int N;
+    private Node first;
+    
+    /**
+     * Internal linked list class
+     */
     private class Node {
         private Item item;
         private Node next;
     }
     
-    /**
-     * Create an empty stack.
-     */
 	public Stack() {
 		first = null;
 		N = 0;		
 	}	
 	
-	/**
-     * Is the stack empty?
-     */
 	public boolean isEmpty() {
 		return size() == 0;
 	}
 	
-	/**
-     * Return the number of items on the stack.
-     */
 	public int size() {
 		return N;
 	}
@@ -48,8 +41,7 @@ public class Stack<Item> implements Iterable<Item> {
 	}
 	
 	/**
-     * Delete and return the first item in the stack (LIFO order)
-     * @throws java.util.NoSuchElementException if stack is empty.
+     * Delete and return the first item in the stack (LIFO based)
      */
 	public Item pop() {
 		if (isEmpty()) throw new NoSuchElementException("Stack underflow");
@@ -59,10 +51,6 @@ public class Stack<Item> implements Iterable<Item> {
 		return item;
 	}
 	
-
-	/**
-	 * Is the item in the stack?
-     */
 	public boolean contains(Item item) {
 		for (Item it: this) {
 			if (it.equals(item)) return true;
@@ -72,10 +60,7 @@ public class Stack<Item> implements Iterable<Item> {
 	}
 	
 	/**
-     * Return an iterator that iterates over all of the items in the stack
-     * in LIFO order.
-     * <p>
-     * The iterator doesn't implement <tt>remove()</tt> since it's optional.
+     * Return an iterator that iterates over all of the items in the stack (LIFO based)
      */
 	public Iterator<Item> iterator() {
 		return new ListIterator();
