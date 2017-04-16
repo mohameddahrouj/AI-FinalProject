@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import datastructures.Queue;
 import datastructures.Stack;
-import project.Action;
+import project.Move;
 import project.Board;
 import project.Algorithm;
 
@@ -57,7 +57,7 @@ public class BFSAlgorithm extends Algorithm{
     	time = System.currentTimeMillis() - time;
     	
     	SearchNode prev = sn;
-    	movements = new Stack<Action>();
+    	movements = new Stack<Move>();
     	
     	while (prev != null) {
     		movements.push(prev.board.getAction());
@@ -84,7 +84,7 @@ public class BFSAlgorithm extends Algorithm{
 		return moves;
 	}
 
-	public Iterable<Action> solution() {
+	public Iterable<Move> solution() {
 		if (!solvable) return null;
     	return movements;
 	}
@@ -117,7 +117,7 @@ public class BFSAlgorithm extends Algorithm{
         // print solution to standard output
         System.out.println("Minimum number of moves = " + solver.moves());
         
-        for (Action a: solver.solution())
+        for (Move a: solver.solution())
         	System.out.println(a);
 	}
 }

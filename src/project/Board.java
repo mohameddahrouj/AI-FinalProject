@@ -197,8 +197,8 @@ public class Board {
         return s;
     }
     
-    public Action getAction() {
-    	return new Action(blockMoved, spacesMoved, this);
+    public Move getAction() {
+    	return new Move(blockMoved, spacesMoved, this);
     }
     
     public double getHeuristic(int algorithmNumber) {

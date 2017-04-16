@@ -11,7 +11,7 @@ import datastructures.Stack;
 public abstract class Algorithm {
 	protected boolean solvable;
 	protected int moves = -1;
-	protected Stack<Action> movements;
+	protected Stack<Move> movements;
 	protected int expNodes = 0;
 	protected long time = 0;
 		
@@ -43,5 +43,5 @@ public abstract class Algorithm {
 	 *  Gets the solution to the solver
 	 *  @return An iterable<Action> with the solution to the parking lot configuration
 	 */
-    protected abstract Iterable<Action> solution();
+    protected abstract Iterable<Move> solution();
 }

@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import datastructures.MinPriorityQueue;
 import datastructures.Stack;
-import project.Action;
+import project.Move;
 import project.Board;
 import project.Algorithm;
 
@@ -161,7 +161,7 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
     	}
 		
     	SearchNode prev = current;
-    	movements = new Stack<Action>();
+    	movements = new Stack<Move>();
     		
     	while (prev != null) {
     		movements.push(prev.board.getAction());
@@ -187,7 +187,7 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 		return moves;
 	}
 
-	public Iterable<Action> solution() {
+	public Iterable<Move> solution() {
 		if (!solvable) return null;
     	return movements;
 	}
@@ -211,7 +211,7 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
         Scheduler s = new Scheduler(20, 0.0000045, 100000000);
         SimulatedAnnealingAlgorithm solver = new SimulatedAnnealingAlgorithm(initial, s);      
         System.out.println("Minimum number of moves = " + solver.moves());
-        for (Action a: solver.solution())
+        for (Move a: solver.solution())
         	System.out.println(a);
         
         System.out.println(solver.expNodes);

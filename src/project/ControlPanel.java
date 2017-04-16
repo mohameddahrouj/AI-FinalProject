@@ -255,7 +255,7 @@ public class ControlPanel extends JPanel {
 			int stepCount = 0;
 			
 			if (algorithm.isSolvable()){
-				for (Action a : algorithm.solution()) {
+				for (Move a : algorithm.solution()) {
 					if (a.getBlock() == 'X'){
 						AppComponents.board.vehicles[0].move(100 * a.getMoves());
 					}

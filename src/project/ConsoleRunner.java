@@ -110,7 +110,7 @@ public class ConsoleRunner{
 		public void run() {
 			
 			if (algorithm.isSolvable())
-				for (Action a : algorithm.solution()) {
+				for (Move a : algorithm.solution()) {
 					if (a.getBlock() == 'X'){
 						//Prints the board
 						System.out.println(a.getBoard());
