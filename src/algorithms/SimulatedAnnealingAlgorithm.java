@@ -58,7 +58,7 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 	// if /\E > 0 then current <- next
 	// else current <- next only with probability e^(/\E/T)
 	private boolean shouldAccept(double temperature, double deltaE) {
-		return (deltaE > 0.0)
+		return (deltaE > 0.0) 
 				|| (new Random().nextDouble() <= probabilityOfAcceptance(
 						temperature, deltaE));
 	}
@@ -71,14 +71,9 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 	}
 	
 	/**
-	 * Returns <em>e</em><sup>&delta<em>E / T</em></sup>
-	 * 
-	 * @param temperature
-	 *            <em>T</em>, a "temperature" controlling the probability of
-	 *            downward steps
-	 * @param deltaE
-	 *            VALUE[<em>next</em>] - VALUE[<em>current</em>]
-	 * @return <em>e</em><sup>&delta<em>E / T</em></sup>
+	 * Returns e^deltaE/T
+	 * @param temperature controlling the probability of downward steps
+	 * @param deltaE value of next minus current
 	 */
 	public double probabilityOfAcceptance(double temperature, double deltaE) {
 		return Math.exp(deltaE / temperature);
