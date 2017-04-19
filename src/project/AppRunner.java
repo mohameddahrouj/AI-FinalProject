@@ -15,7 +15,7 @@ public class AppRunner extends JFrame {
 	public AppRunner() {
 		AppComponents.appRunner = this;
 		setTitle("COMP 4106- Parking Optimization");
-		setSize(new Dimension(1000, 720));
+		setSize(new Dimension(1100, 720));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(true);

@@ -2,6 +2,7 @@ package project;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -50,7 +51,7 @@ public class ControlPanel extends JPanel {
 	 * Creates right side bar
 	 */
 	public ControlPanel() {
-		setPreferredSize(new Dimension(330,630));
+		setPreferredSize(new Dimension(380,630));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
 		initializeComponents();
@@ -60,20 +61,29 @@ public class ControlPanel extends JPanel {
 	private void initializeComponents() {
 		
 		lbParkingConfig = new JLabel("Parking Configuration:");
+		lbParkingConfig.setFont(new Font("Arial", Font.BOLD, 18));
 		
 		//Parking Lot list
 		cbParkingLots = new JComboBox<>();
 		
 		lbAlgorithms = new JLabel("Algorithms:");
+		lbAlgorithms.setFont(new Font("Arial", Font.BOLD, 18));
 		
 		//Search algorithms
 		rbAStar = new JRadioButton("A*");
 		rbSearchAnnealing = new JRadioButton("Simulated Annealing");
 		rbBFS = new JRadioButton("BFS");
 		
+		rbAStar.setFont(new Font("Arial", Font.BOLD, 15));
+		rbSearchAnnealing.setFont(new Font("Arial", Font.BOLD, 15));
+		rbBFS.setFont(new Font("Arial", Font.BOLD, 15));
+		
 		//Buttons
 		btnSolve = new JButton("Solve");
 		btnShow = new JButton("Show");
+		
+		btnSolve.setFont(new Font("Arial", Font.BOLD, 16));
+		btnShow.setFont(new Font("Arial", Font.BOLD, 16));
 		
 		lbAnalytics = new JLabel("Metrics:");
 		
@@ -83,16 +93,22 @@ public class ControlPanel extends JPanel {
 		lbTime = new JLabel("Running time: N/A");
 		
         lbSteps = new JLabel("Step #: N/A");
+        lbSteps.setFont(new Font("Arial", Font.BOLD, 16));
+        
+        lbAnalytics.setFont(new Font("Arial", Font.BOLD, 18));
+        lbMoves.setFont(new Font("Arial", Font.PLAIN, 18));
+        lbExpNodes.setFont(new Font("Arial", Font.PLAIN, 18));
+        lbTime.setFont(new Font("Arial", Font.PLAIN, 18));
+        
         lbSteps.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-
 		
 		lbParkingConfig.setBounds(50, 0, 200, 30);
 		cbParkingLots.setBounds(50, 30, 200, 30);
 		
-		lbAlgorithms.setBounds(50, 60, 75, 50);
+		lbAlgorithms.setBounds(50, 60, 110, 50);
 		rbAStar.setBounds(50, 95, 50, 30);
-		rbBFS.setBounds(100, 95, 50, 30);
-		rbSearchAnnealing.setBounds(160, 95, 200, 30);
+		rbBFS.setBounds(110, 95, 70, 30);
+		rbSearchAnnealing.setBounds(180, 95, 200, 30);
 		
 		btnSolve.setBounds(50, 140, 100, 50);
 		btnShow.setBounds(155, 140, 100, 50);
