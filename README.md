@@ -15,8 +15,13 @@ This project tackles the notorious Rush Hour game using breadth first search, A*
 ## The Algorithms:
 Both the A* and simulated annealing algorithms use heuristics to process the viability of their successor nodes. Below is a brief description of each algorithm.
 
-### Heuristics
+### Heuristics:
 A* used a Manhattan distance heuristic while the simulated annealing search algorithm used a Euclidean distance heuristic.
 
 ### Note on Simulated Annealing:
 For more complex parking lot orientations, SA is not expected to converge to an optimal solution by nature. The starting temperature and descent gradient are globally set in ./src/project/ControlPanel.java when initializing the Scheduler for the algorithm. 
+
+| K Steps (Boltzmann constant) | Descent Gradient (Reduction Rate) | Initial Temperature (Maximum) |
+|:----------------------------:|:---------------------------------:|:-----------------------------:|
+|              20              |              0.00005              |           1,000,000           |
+Table 1. Initial Scheduler values for simulated annealing search algorithm
