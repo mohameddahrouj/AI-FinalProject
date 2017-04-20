@@ -24,4 +24,5 @@ For more complex parking lot orientations, SA is not expected to converge to an 
 | K Steps (Boltzmann constant) | Descent Gradient (Reduction Rate) | Initial Temperature (Maximum) |
 |:----------------------------:|:---------------------------------:|:-----------------------------:|
 |              20              |              0.00005              |           1,000,000           |
+
 Table 1. Initial Scheduler values for simulated annealing search algorithm
