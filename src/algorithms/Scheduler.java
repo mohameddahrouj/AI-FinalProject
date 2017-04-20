@@ -1,5 +1,8 @@
 package algorithms;
 
+/**
+ * Scheduler used for controlling temperature in the simulated annealing algorithm
+ */
 public class Scheduler {
 		private final int k, limit;
 		private final double lam;

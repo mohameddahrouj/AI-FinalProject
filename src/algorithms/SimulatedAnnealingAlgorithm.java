@@ -36,42 +36,29 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 	public static final String METRIC_NODES_EXPANDED = "nodesExpanded";
 	public static final String METRIC_TEMPERATURE = "temp";
 	public static final String METRIC_NODE_VALUE = "nodeValue";
-	private Metrics metrics = new Metrics();
 	
 	public static ParkingLot getRandomNeighbour(ArrayList<ParkingLot> list) {
 		Random r = new Random();
 		return list.get(r.nextInt(list.size()));
 	}
 	
-	private void clearInstrumentation() {
-		expNodes = 0;
-		metrics.set(METRIC_NODES_EXPANDED, 0);
-		metrics.set(METRIC_TEMPERATURE, 0);
-		metrics.set(METRIC_NODE_VALUE, 0);
-	}
-	
-	private void updateMetrics(double temperature, double value) {
-		metrics.set(METRIC_TEMPERATURE, temperature);
-		metrics.set(METRIC_NODE_VALUE, value);
-	}
-	
-	// if /\E > 0 then current <- next
-	// else current <- next only with probability e^(/\E/T)
+	// if E > 0 then current <- next
+	// else current <- next only with probability e^(E/T)
 	private boolean shouldAccept(double temperature, double deltaE) {
 		return (deltaE > 0.0) 
 				|| (new Random().nextDouble() <= probabilityOfAcceptance(
 						temperature, deltaE));
 	}
 
+	// assumption greater heuristic value => HIGHER on hill;
+	// 0 == goal state;
+	// Simulated annealing deals with gradient descent
 	private double getValue(SearchNode n) {
-		// assumption greater heuristic value =>
-		// HIGHER on hill; 0 == goal state;
-		// SA deals with gradient DESCENT
 		return -1 * n.parkingLot.getHeuristic(3);
 	}
 	
 	/**
-	 * Returns e^deltaE/T
+	 * Returns e^(deltaE/T)
 	 * @param temperature controlling the probability of downward steps
 	 * @param deltaE value of next minus current
 	 */
@@ -80,23 +67,20 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 	}
 			
 	/**
-	 *  Find the solution of the initial board using the Simulated Annealing algorithm.
+	 * Find the solution of the initial board using the simulated annealing algorithm.
 	 * @param initial The Board to be solved
 	 */
 	public SimulatedAnnealingAlgorithm(ParkingLot initial, Scheduler scheduler) {
 		time = System.currentTimeMillis();
-			
-		clearInstrumentation();
+		
 		solvable = false;
-		//lastState = null;
 		// current <- MAKE-NODE(problem.INITIAL-STATE)
 		SearchNode current = null;
 		SearchNode next = null;
-		ArrayList<ParkingLot> visitedBoards = new ArrayList<>();
-		//visitedBoards.add(current.board);
 		// for t = 1 to INFINITY do
 		int timeStep = 0;
 		
+		ArrayList<ParkingLot> visitedBoards = new ArrayList<>();
 		MinPriorityQueue<SearchNode> pq = new MinPriorityQueue<SearchNode>();
 		pq.insert(new SearchNode(initial, 0, null));
 		
@@ -105,7 +89,6 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
     		if (visitedBoards.contains(current.parkingLot)) continue;
     		if (current.parkingLot.isGoal()) break;
     		visitedBoards.add(current.parkingLot);
-			//expNodes++;
 			// temperature <- schedule(t)
 			double temperature = scheduler.getTemp(timeStep);
 			timeStep++;
@@ -118,34 +101,19 @@ public class SimulatedAnnealingAlgorithm extends Algorithm{
 				else
 					return;
 			}
-
-			updateMetrics(temperature, getValue(current));
+			
 			expNodes++;
-			//ArrayList<Board> children = current.board.neighbors();
-			//if (children.size() > 0) {
 				for(ParkingLot b: current.parkingLot.productionSystem()){
-					//expNodes++;
 					// next <- a randomly selected successor of current
-					//Board randBoard = getRandomNeighbour(children);
-					//while(visitedBoards.contains(randBoard)){
-					//	randBoard = getRandomNeighbour(children);
-					//	continue;
-					//}
-					//visitedBoards.add(randBoard);
 					next = new SearchNode(b, current.moves+1, current);
 					// /\E <- next.VALUE - current.value
 					double deltaE = getValue(next) - getValue(current);
-					//expNodes++;
 					if (!visitedBoards.contains(b)) {
 						if(shouldAccept(temperature, deltaE)){
-							//expNodes++;
-							//current = new SearchNode(b, current.moves+1, current);
 							pq.insert(new SearchNode(b, current.moves+1, current));
 						}
-						//visitedBoards.add(randBoard);
 					}
 				}
-			//}
 		}
 		
 		time = System.currentTimeMillis() - time;
